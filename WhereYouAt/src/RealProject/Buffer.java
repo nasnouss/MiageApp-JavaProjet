@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 public class Buffer {
-
+	
 	private boolean available = false;
 	private List<Coordonnees> listCoordonnees = new ArrayList<Coordonnees>();
 	int index = 0;
 
-	// Methode qui renvoie un Coordonnées latitude longitude
+	// Methode qui renvoie un Coordonn��es latitude longitude
 	public synchronized Coordonnees prendre() {
+		System.out.println("yes");
 		Coordonnees c = null;
 		while (available == false) {
 			try {
@@ -33,7 +34,7 @@ public class Buffer {
 		
 	}
 
-	// Methode qui met dans le buffer un coordonnées
+	// Methode qui met dans le buffer un coordonn��es
 	public synchronized void mettre(Coordonnees c) {
 		while (available == true) {
 			try {
