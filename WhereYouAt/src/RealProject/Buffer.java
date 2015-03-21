@@ -13,7 +13,7 @@ public class Buffer {
 
 	// Methode qui renvoie un Coordonn��es latitude longitude
 	public synchronized Coordonnees prendre() {
-		System.out.println("yes");
+		System.out.println("yesdsvsvsv");
 		Coordonnees c = null;
 		while (available == false) {
 			try {
