@@ -4,3 +4,6 @@
  4 / traceroute producteur mettre le debut de chaque dans une classe pour lancer le traceroute
  5 / au bout de 5 lignes "***" on kill le thread (à voir avec momo)
  6 / Pour le case 2, demander l'API, lui proposer aussi l'option "TOUT GEOIP" et "TOUT HOSTIP"
+ 
+ 
+ je test le GIT
