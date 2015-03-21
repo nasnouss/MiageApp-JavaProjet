@@ -120,7 +120,7 @@ public class Menu {
 					String ip = Tools.randomIp();
 //					List<Position> lstpos = new ArrayList<Position>();
 //					Traceroute trace = new Traceroute(ip, lstpos);
-					ltrProd.add(new TraceRouteProducteur(c, i, ip, 2, new Traceroute(ip, new ArrayList<Position>()),
+					ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, new Traceroute(ip, new ArrayList<Position>()),
 							Tools.setCouleur()));
 					ltrCons.add(new TraceRouteConsommateur(c, i, a, new Traceroute(ip, new ArrayList<Position>())));
 

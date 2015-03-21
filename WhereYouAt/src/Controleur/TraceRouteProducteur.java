@@ -62,14 +62,16 @@ public class TraceRouteProducteur extends Thread {
 	public void run() {
 		int compteurLigneEtoile = 0;
 		Position pos;
-
+		boolean running = true ;
 		if (this.api == 1) {
 
 			System.out.println("GO " + id + "\n");
 			Double latitude;
 			Double longitude;
 			Color color = Tools.setCouleur();
-
+			
+			
+			
 			int cpt = 1;
 			DatabaseReader r = null;
 			Runtime runtime = Runtime.getRuntime();
@@ -90,7 +92,7 @@ public class TraceRouteProducteur extends Thread {
 
 				try {
 
-					while ((line = reader.readLine()) != null) {
+					while ((line = reader.readLine()) != null && running) {
 						if (!line.contains("* * *") && cpt > 2) {
 
 							compteurLigneEtoile = 0; // on remet ?? 0 le compter
@@ -132,8 +134,9 @@ public class TraceRouteProducteur extends Thread {
 
 							if (compteurLigneEtoile == 5) { // si il y a 5 ligne
 								// de suite on Kill
-								System.out.println("end by 5*");
-								Thread.currentThread().interrupt();
+								System.out.println("on a killer le thread");
+								running =false;
+								Thread.currentThread().sleep(5000);
 							}
 						}
 						cpt++;
@@ -142,6 +145,9 @@ public class TraceRouteProducteur extends Thread {
 				} catch (GeoIp2Exception e) {
 					e.printStackTrace();
 
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} finally { // fo
 					System.out.println("end");
 					reader.close();
@@ -176,7 +182,7 @@ public class TraceRouteProducteur extends Thread {
 							+ cds.getCouleur().toString());
 					Thread.currentThread().sleep(5000);
 					while ((line = reader.readLine()) != null) {
-						if (!line.contains("* * *") && cpt > 2) {
+						if (!line.contains("* * *") && cpt > 2 && running) {
 
 							compteurLigneEtoile = 0;
 
@@ -222,9 +228,9 @@ public class TraceRouteProducteur extends Thread {
 
 							if (compteurLigneEtoile == 5) { // si il y a 5 ligne
 								// de suite on Kill
-
-								System.out.println("end by 5*");
-								Thread.currentThread().interrupt();
+								System.out.println("on a killer le thread");
+								running =false;
+								Thread.currentThread().sleep(5000);
 							}
 						}
 						cpt++;
