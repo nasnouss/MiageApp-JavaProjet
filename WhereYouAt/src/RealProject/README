@@ -1,8 +1,8 @@
- 1 / probleme quand on fait une deuxieme recherche à la volé le programme se fini alors qu'il devrait réafficher le menu
+ 1 / probleme quand on fait une deuxieme recherche à la volée le programme se fini alors qu'il devrait réaafficher le menu
 
  3 / rajouter sa position sur la carte
  4 / traceroute producteur mettre le debut de chaque dans une classe pour lancer le traceroute
- 5 / au bout de 5 lignes "***" on kill le thread (à voir avec momo)
+ 5 / au bout de 5 lignes "***" on kill le thread (�� voir avec momo)
  6 / Pour le case 2, demander l'API, lui proposer aussi l'option "TOUT GEOIP" et "TOUT HOSTIP"
  
  
