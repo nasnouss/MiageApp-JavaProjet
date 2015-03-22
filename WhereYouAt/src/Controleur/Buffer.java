@@ -10,8 +10,7 @@ public class Buffer {
 	private boolean available = false;
 	private List<Coordonnees> listCoordonnees = new ArrayList<Coordonnees>();
 	int index = 0;
-
-	// Methode qui renvoie un Coordonn��es latitude longitude
+	// Methode qui renvoie un Coordonnées latitude longitude
 	public synchronized Coordonnees prendre() {
 		System.out.println("yes");
 		Coordonnees c = null;
@@ -34,7 +33,7 @@ public class Buffer {
 		
 	}
 
-	// Methode qui met dans le buffer un coordonn��es
+	// Methode qui met dans le buffer un coordonnées
 	public synchronized void mettre(Coordonnees c) {
 		while (available == true) {
 			try {
@@ -45,12 +44,9 @@ public class Buffer {
 		}
 		System.out.println("je mets et je notife \n");
 		
-		Set<Coordonnees> mySet = new HashSet<Coordonnees>(listCoordonnees);
-		listCoordonnees = new ArrayList<Coordonnees>(mySet);
+		//Set<Coordonnees> mySet = new HashSet<Coordonnees>(listCoordonnees);
+		//listCoordonnees = new ArrayList<Coordonnees>();
 		listCoordonnees.add(new Coordonnees(c.getLatitude(), c.getLongitude(),c.getSite(),c.getIp(),c.getCouleur()));
-		//listCoordonnees = lst2;
-	//	listCoordonnees.add(new Coordonnees(c.getLatitude(), c.getLongitude(),c.getSite(),c.getIp(),c.getCouleur()));
-		//index = index + 1;
 		available = true; 
 		notifyAll();
 	}

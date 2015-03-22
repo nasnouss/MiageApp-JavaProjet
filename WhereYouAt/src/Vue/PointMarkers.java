@@ -1,21 +1,19 @@
 package Vue;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.util.ArrayList;
-
-import Controleur.Coordonnees;
-import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.RenderableLayer;
-import gov.nasa.worldwind.render.Material;
 import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
+import Controleur.Coordonnees;
+
 public class PointMarkers extends ApplicationTemplate {
+	@SuppressWarnings("serial")
 	public static class AppFrame extends ApplicationTemplate.AppFrame {
 		private static RenderableLayer layer;
 		private static AppFrame app;

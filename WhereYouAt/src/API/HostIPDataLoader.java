@@ -1,13 +1,9 @@
 package API;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -17,35 +13,33 @@ import org.xml.sax.SAXException;
 
 import Controleur.Coordonnees;
 
+public class HostIPDataLoader {
 
-
-
-public class HostIPDataLoader{
-	
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean getPointData(Coordonnees point) {
 		URL urlHostIp;
 		try {
-			urlHostIp = new URL("http://api.hostip.info/?ip="+point.getIp());
-			System.out.println("http://api.hostip.info/?ip="+point.getIp());
-			URLConnection connection  = urlHostIp.openConnection();
-			
-			//Create a "parser factory" for creating SAX parsers
-	        SAXParserFactory spfac = SAXParserFactory.newInstance();
+			urlHostIp = new URL("http://api.hostip.info/?ip=" + point.getIp());
+			System.out.println("http://api.hostip.info/?ip=" + point.getIp());
+			URLConnection connection = urlHostIp.openConnection();
 
-	        //Now use the parser factory to create a SAXParser object
-	        SAXParser sp = spfac.newSAXParser();
+			// Create a "parser factory" for creating SAX parsers
+			SAXParserFactory spfac = SAXParserFactory.newInstance();
 
-	        //Create an instance of this class; it defines all the handler methods
-	        HostIPParser handler = new HostIPParser(point);
+			// Now use the parser factory to create a SAXParser object
+			SAXParser sp = spfac.newSAXParser();
 
-	        //Finally, tell the parser to parse the input and notify the handler
-	        sp.parse(connection.getInputStream(), handler);
-	        
-	        return handler.isDataOk();
+			// Create an instance of this class; it defines all the handler
+			// methods
+			HostIPParser handler = new HostIPParser(point);
+
+			// Finally, tell the parser to parse the input and notify the
+			// handler
+			sp.parse(connection.getInputStream(), handler);
+
+			return handler.isDataOk();
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -61,8 +55,6 @@ public class HostIPDataLoader{
 			e.printStackTrace();
 		}
 		return false;
-       
-
 
 	}
 

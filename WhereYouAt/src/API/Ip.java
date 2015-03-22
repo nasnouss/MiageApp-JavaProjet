@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
+import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
@@ -32,17 +32,16 @@ public class Ip {
 
 
 	public double getLatitude(DatabaseReader reader) throws IOException, GeoIp2Exception{  // new 
-		com.maxmind.geoip2.record.Location location = null;
+		Location location = null;
 		
 		try{
-		CityResponse response = reader.city(this.ip);
-		 location = response.getLocation();
+			CityResponse response = reader.city(this.ip);
+			location = response.getLocation();
 
 		} catch(Exception e){
 			System.out.println("Unknown");
 			
 		}
-		
 		
 		return location.getLatitude();
 	}
@@ -59,7 +58,7 @@ public class Ip {
 
 
 	public double getLongitude(DatabaseReader reader) throws IOException, GeoIp2Exception{  // new
-		com.maxmind.geoip2.record.Location location=null ;
+		Location location=null ;
 		try{
 		CityResponse response = reader.city(this.ip);
 		location = response.getLocation();
