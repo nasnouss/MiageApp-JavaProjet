@@ -9,6 +9,8 @@ public class Buffer {
 	
 	private boolean available = false;
 	private List<Coordonnees> listCoordonnees = new ArrayList<Coordonnees>();
+	private List<Coordonnees> historique = new ArrayList<Coordonnees>();
+	
 	int index = 0;
 	// Methode qui renvoie un Coordonnées latitude longitude
 	public synchronized Coordonnees prendre() {
@@ -47,6 +49,7 @@ public class Buffer {
 		//Set<Coordonnees> mySet = new HashSet<Coordonnees>(listCoordonnees);
 		//listCoordonnees = new ArrayList<Coordonnees>();
 		listCoordonnees.add(new Coordonnees(c.getLatitude(), c.getLongitude(),c.getSite(),c.getIp(),c.getCouleur()));
+		historique.add(new Coordonnees(c.getLatitude(), c.getLongitude(),c.getSite(),c.getIp(),c.getCouleur()));
 		available = true; 
 		notifyAll();
 	}

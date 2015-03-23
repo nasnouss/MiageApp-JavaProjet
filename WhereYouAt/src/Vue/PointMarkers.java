@@ -1,10 +1,12 @@
 package Vue;
 
+import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.render.Polyline;
+import gov.nasa.worldwind.util.measure.LengthMeasurer;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
 import java.awt.Color;
@@ -15,13 +17,20 @@ import Controleur.Coordonnees;
 public class PointMarkers extends ApplicationTemplate {
 	@SuppressWarnings("serial")
 	public static class AppFrame extends ApplicationTemplate.AppFrame {
+		
 		private static RenderableLayer layer;
 		private static AppFrame app;
+		protected LengthMeasurer measurer = new LengthMeasurer();
+		protected boolean followTerrain = true;
+		public final static int GREAT_CIRCLE = WorldWind.GREAT_CIRCLE;
+		protected int pathType = GREAT_CIRCLE;
 
 		public AppFrame() {
 			super(true, true, false);
 			app = this;
 			layer = new RenderableLayer();
+			 this.measurer.setFollowTerrain(this.followTerrain);
+			 this.measurer.setPathType(this.pathType);
 		}
 
 		public static AppFrame getAppFrame() {
@@ -73,13 +82,24 @@ public class PointMarkers extends ApplicationTemplate {
 
 		public void drawline(ArrayList<Position> lst, Color color) {
 			Polyline path = new Polyline(lst);
-			path.setFollowTerrain(true);
+			path.setFollowTerrain(this.followTerrain);
 			path.setColor(color);
 			layer.addRenderable(path);
 			insertBeforeCompass(getWwd(), layer);
 
 			this.getLayerPanel().update(this.getWwd());
 
+		}
+		
+		public  double getDistance (Position pos1, Position pos2 ){
+			final int rayon = 6367445 ;
+			double a =pos1.getLatitude().getDegrees() ;
+			double b= pos2.getLatitude().getDegrees() ;
+			double c= pos1.getLongitude().getDegrees() ;
+			double d= pos2.getLongitude().getDegrees();
+			
+			
+			return rayon*Math.acos(Math.sin(a)*Math.sin(b) + Math.cos(a)*Math.cos(b)*Math.cos(c-d));
 		}
 
 	}
