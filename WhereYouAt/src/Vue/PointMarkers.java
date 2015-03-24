@@ -1,8 +1,12 @@
 package Vue;
 
 import gov.nasa.worldwind.WorldWind;
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.event.SelectEvent;
+import gov.nasa.worldwind.event.SelectListener;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.RenderableLayer;
+import gov.nasa.worldwind.pick.PickedObject;
 import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.render.Polyline;
@@ -11,6 +15,8 @@ import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import Controleur.Coordonnees;
 
@@ -24,6 +30,7 @@ public class PointMarkers extends ApplicationTemplate {
 		protected boolean followTerrain = true;
 		public final static int GREAT_CIRCLE = WorldWind.GREAT_CIRCLE;
 		protected int pathType = GREAT_CIRCLE;
+		private boolean affichageVoisin = false;
 
 		public AppFrame() {
 			super(true, true, false);
@@ -31,6 +38,34 @@ public class PointMarkers extends ApplicationTemplate {
 			layer = new RenderableLayer();
 			 this.measurer.setFollowTerrain(this.followTerrain);
 			 this.measurer.setPathType(this.pathType);
+			 
+			 // Add a select listener in order to determine when the label is selected.
+	            this.getWwd().addSelectListener(new SelectListener()
+	            {
+	                @Override
+	                public void selected(SelectEvent event)
+	                {
+	                    PickedObject po = event.getTopPickedObject();
+	                    if (po != null && po.getObject() instanceof PointPlacemark)
+	                    {
+	                        if (event.getEventAction().equals(SelectEvent.HOVER))
+	                        {
+	                            System.out.println("j'ai touché le Placemark !!!!!!! negga !!!! ");
+	                            System.out.println("l'ip est " );
+	                            affichageVoisin = true;
+	                        	
+	                        } else {
+	                        	if(affichageVoisin){
+	                        	System.out.println("je suis plus sur le placemark");
+	                        	affichageVoisin = false;
+	                        	}
+	                        }
+	                    }
+	                }
+	            });
+			 
+			 
+			 
 		}
 
 		public static AppFrame getAppFrame() {
