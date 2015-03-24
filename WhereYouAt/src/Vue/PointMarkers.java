@@ -18,54 +18,61 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.google.api.client.util.StringUtils;
+
 import Controleur.Coordonnees;
 
 public class PointMarkers extends ApplicationTemplate {
 	@SuppressWarnings("serial")
 	public static class AppFrame extends ApplicationTemplate.AppFrame {
-		
+
 		private static RenderableLayer layer;
 		private static AppFrame app;
 		protected LengthMeasurer measurer = new LengthMeasurer();
 		protected boolean followTerrain = true;
 		public final static int GREAT_CIRCLE = WorldWind.GREAT_CIRCLE;
 		protected int pathType = GREAT_CIRCLE;
-		private boolean affichageVoisin = false;
+		
 
 		public AppFrame() {
 			super(true, true, false);
 			app = this;
 			layer = new RenderableLayer();
-			 this.measurer.setFollowTerrain(this.followTerrain);
-			 this.measurer.setPathType(this.pathType);
-			 
-			 // Add a select listener in order to determine when the label is selected.
-	            this.getWwd().addSelectListener(new SelectListener()
-	            {
-	                @Override
-	                public void selected(SelectEvent event)
-	                {
-	                    PickedObject po = event.getTopPickedObject();
-	                    if (po != null && po.getObject() instanceof PointPlacemark)
-	                    {
-	                        if (event.getEventAction().equals(SelectEvent.HOVER))
-	                        {
-	                            System.out.println("j'ai touché le Placemark !!!!!!! negga !!!! ");
-	                            System.out.println("l'ip est " );
-	                            affichageVoisin = true;
-	                        	
-	                        } else {
-	                        	if(affichageVoisin){
-	                        	System.out.println("je suis plus sur le placemark");
-	                        	affichageVoisin = false;
-	                        	}
-	                        }
-	                    }
-	                }
-	            });
-			 
-			 
-			 
+			this.measurer.setFollowTerrain(this.followTerrain);
+			this.measurer.setPathType(this.pathType);
+
+			// Add a select listener in order to determine when the label is selected.
+			this.getWwd().addSelectListener(new SelectListener()
+			{
+				@Override
+				public void selected(SelectEvent event)
+				{
+					PickedObject po = event.getTopPickedObject();
+					if (po != null && po.getObject() instanceof PointPlacemark)
+					{
+						PointPlacemark point = (PointPlacemark) po.getObject(); 
+
+						if (event.getEventAction().equals(SelectEvent.LEFT_CLICK))
+						{
+							System.out.println("j'ai touché le Placemark !!!!!!! negga !!!! ");
+							String split[]= point.getLabelText().split("\\s+");
+
+							System.out.println("l'ip est " + split[split.length-1].toString());
+							
+
+						} 
+						if (event.getEventAction().equals(SelectEvent.RIGHT_CLICK)){
+						
+								System.out.println("bye bye ! je suis plus sur le placemark");
+							
+							
+						}
+					}
+				}
+			});
+
+
+
 		}
 
 		public static AppFrame getAppFrame() {
@@ -87,7 +94,8 @@ public class PointMarkers extends ApplicationTemplate {
 			// Changing color of the placemarkers attached to their respective
 			// placemark attribute.
 			pointAttributeBlue.setImageColor(c.getCouleur()); // On choisir la
-																// couleur
+			// couleur
+
 			// Changing font type, size and setting it to bold.
 			// pointAttributeBlue.setLabelFont(Font.decode(c.getIp()));
 			// Changing the label text color
@@ -125,55 +133,55 @@ public class PointMarkers extends ApplicationTemplate {
 			this.getLayerPanel().update(this.getWwd());
 
 		}
-		
 
-		
+
+
 		public double getDistance(Position pos1, Position pos2){
 			// source : falcultÈ des sciences :  Explication http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf	
 			// code source (‡ enlever) : http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points		
 
-					// r
-					int r = 6371;
-					
-					long tempsT1;
-					long tempsT2;
-					
-					
-					// POINT DE DEPART
-					double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());;
-					double lon1 =  Math.toRadians(pos1.getLongitude().getDegrees()); 
-					
-					// POINT D'ARRIVE
-					double lat2 =  Math.toRadians(pos2.getLatitude().getDegrees()) ;
-					double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());	
-					
-					
-					tempsT1 = System.nanoTime();
-					double distance = distanceVolOiseauEntre2PointsAvecPrÈcision(lat1, lon1, lat2, lon2);
-					tempsT2 = System.nanoTime();
-					
-					double distanceEnKm = distance * r ;
-			 
-					tempsT1 = System.nanoTime();		
-					tempsT2 = System.nanoTime();
-					
-					System.out.println("Temps (SansPrÈcision) : " + String.format("%10d",(tempsT2 - tempsT1)) + " ns");		
-					
-			 
-					
-				
-					
-					
-			
+			// r
+			int r = 6371;
+
+			long tempsT1;
+			long tempsT2;
+
+
+			// POINT DE DEPART
+			double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());;
+			double lon1 =  Math.toRadians(pos1.getLongitude().getDegrees()); 
+
+			// POINT D'ARRIVE
+			double lat2 =  Math.toRadians(pos2.getLatitude().getDegrees()) ;
+			double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());	
+
+
+			tempsT1 = System.nanoTime();
+			double distance = distanceVolOiseauEntre2PointsAvecPrÈcision(lat1, lon1, lat2, lon2);
+			tempsT2 = System.nanoTime();
+
+			double distanceEnKm = distance * r ;
+
+			tempsT1 = System.nanoTime();		
+			tempsT2 = System.nanoTime();
+
+			System.out.println("Temps (SansPrÈcision) : " + String.format("%10d",(tempsT2 - tempsT1)) + " ns");		
+
+
+
+
+
+
+
 			return distanceEnKm ;
 		}
-		
+
 
 		public static double distanceVolOiseauEntre2PointsAvecPrÈcision(double lat1, double lon1, double lat2, double lon2) {
-	 
+
 			return	2 *	Math.asin(Math.sqrt(Math.pow((Math.sin((lat1 - lat2) / 2)),2)+Math.cos(lat1) * Math.cos(lat2) * 
-	 
-																		(Math.pow(Math.sin(((lon1-lon2)/2)),2))));
+
+					(Math.pow(Math.sin(((lon1-lon2)/2)),2))));
 		}
 
 	}
