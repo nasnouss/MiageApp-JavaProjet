@@ -91,15 +91,54 @@ public class PointMarkers extends ApplicationTemplate {
 
 		}
 		
-		public  double getDistance (Position pos1, Position pos2 ){
-			final int rayon = 6367445 ;
-			double a =pos1.getLatitude().getDegrees() ;
-			double b= pos2.getLatitude().getDegrees() ;
-			double c= pos1.getLongitude().getDegrees() ;
-			double d= pos2.getLongitude().getDegrees();
+
+		
+		public double getDistance(Position pos1, Position pos2){
+			// source : falcultÈ des sciences :  Explication http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf	
+			// code source (‡ enlever) : http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points		
+
+					// r
+					int r = 6371;
+					
+					long tempsT1;
+					long tempsT2;
+					
+					
+					// POINT DE DEPART
+					double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());;
+					double lon1 =  Math.toRadians(pos1.getLongitude().getDegrees()); 
+					
+					// POINT D'ARRIVE
+					double lat2 =  Math.toRadians(pos2.getLatitude().getDegrees()) ;
+					double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());	
+					
+					
+					tempsT1 = System.nanoTime();
+					double distance = distanceVolOiseauEntre2PointsAvecPrÈcision(lat1, lon1, lat2, lon2);
+					tempsT2 = System.nanoTime();
+					
+					double distanceEnKm = distance * r ;
+			 
+					tempsT1 = System.nanoTime();		
+					tempsT2 = System.nanoTime();
+					
+					System.out.println("Temps (SansPrÈcision) : " + String.format("%10d",(tempsT2 - tempsT1)) + " ns");		
+					
+			 
+					
+				
+					
+					
 			
-			
-			return rayon*Math.acos(Math.sin(a)*Math.sin(b) + Math.cos(a)*Math.cos(b)*Math.cos(c-d));
+			return distanceEnKm ;
+		}
+		
+
+		public static double distanceVolOiseauEntre2PointsAvecPrÈcision(double lat1, double lon1, double lat2, double lon2) {
+	 
+			return	2 *	Math.asin(Math.sqrt(Math.pow((Math.sin((lat1 - lat2) / 2)),2)+Math.cos(lat1) * Math.cos(lat2) * 
+	 
+																		(Math.pow(Math.sin(((lon1-lon2)/2)),2))));
 		}
 
 	}
