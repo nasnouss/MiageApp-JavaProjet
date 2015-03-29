@@ -11,7 +11,7 @@ import com.maxmind.geoip2.model.CityResponse;
 
 public class Ip {
 	private InetAddress ip;
-	private static String urlDataBase = "/Users/anisbenbrahim/Documents/Universite/1 - Dauphine/JAVA/Projet_java/GeoLite2-City.mmdb";
+	private static String urlDataBase = "/Users/chourako/Desktop/GeoLite2-City.mmdb";
 // "/Users/chourako/Desktop/GeoLite2-City.mmdb"
 	
 

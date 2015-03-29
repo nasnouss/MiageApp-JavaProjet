@@ -15,6 +15,7 @@ import Controleur.TraceRouteProducteur;
 import Modele.Pool;
 import Modele.Tools;
 import RealProject.Traceroute;
+import Graphe.Graphe;
 
 public class Menu {
 	public static List<TraceRouteProducteur> ltrProd;
@@ -95,12 +96,12 @@ public class Menu {
 					
 					ltrProd.add(new TraceRouteProducteur(c, j, siteATracer,
 							Integer.parseInt(choixAPI), trace, Tools.setCouleur()));
-					ltrCons.add(new TraceRouteConsommateur(c, j, a, trace));
+					ltrCons.add(new TraceRouteConsommateur(c, j, a, trace,new Graphe ()));
 
 				}
 
 				System.out
-						.println("Combien de threads voulez-vous executer simultan��ment ?");
+						.println("Combien de threads voulez-vous executer simultanement ?");
 				int pool = Integer.parseInt(sc.nextLine());
 
 				// POOL DE THREAD
@@ -122,7 +123,7 @@ public class Menu {
 //					Traceroute trace = new Traceroute(ip, lstpos);
 					ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, new Traceroute(ip, new ArrayList<Position>()),
 							Tools.setCouleur()));
-					ltrCons.add(new TraceRouteConsommateur(c, i, a, new Traceroute(ip, new ArrayList<Position>())));
+					ltrCons.add(new TraceRouteConsommateur(c, i, a, new Traceroute(ip, new ArrayList<Position>()),new Graphe()));
 
 				}
 

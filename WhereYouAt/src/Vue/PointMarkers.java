@@ -32,7 +32,6 @@ public class PointMarkers extends ApplicationTemplate {
 		protected boolean followTerrain = true;
 		public final static int GREAT_CIRCLE = WorldWind.GREAT_CIRCLE;
 		protected int pathType = GREAT_CIRCLE;
-		
 
 		public AppFrame() {
 			super(true, true, false);
@@ -41,37 +40,35 @@ public class PointMarkers extends ApplicationTemplate {
 			this.measurer.setFollowTerrain(this.followTerrain);
 			this.measurer.setPathType(this.pathType);
 
-			// Add a select listener in order to determine when the label is selected.
-			this.getWwd().addSelectListener(new SelectListener()
-			{
+			// Add a select listener in order to determine when the label is
+			// selected.
+			this.getWwd().addSelectListener(new SelectListener() {
 				@Override
-				public void selected(SelectEvent event)
-				{
+				public void selected(SelectEvent event) {
 					PickedObject po = event.getTopPickedObject();
-					if (po != null && po.getObject() instanceof PointPlacemark)
-					{
-						PointPlacemark point = (PointPlacemark) po.getObject(); 
+					if (po != null && po.getObject() instanceof PointPlacemark) {
+						PointPlacemark point = (PointPlacemark) po.getObject();
 
-						if (event.getEventAction().equals(SelectEvent.LEFT_CLICK))
-						{
-							System.out.println("j'ai touché le Placemark !!!!!!! negga !!!! ");
-							String split[]= point.getLabelText().split("\\s+");
+						if (event.getEventAction().equals(
+								SelectEvent.LEFT_CLICK)) {
+							System.out
+									.println("j'ai touche le Placemark !!!!!!! negga !!!! ");
+							String split[] = point.getLabelText().split("\\s+");
 
-							System.out.println("l'ip est " + split[split.length-1].toString());
-							
+							System.out.println("l'ip est "
+									+ split[split.length - 1].toString());
 
-						} 
-						if (event.getEventAction().equals(SelectEvent.RIGHT_CLICK)){
-						
-								System.out.println("bye bye ! je suis plus sur le placemark");
-							
-							
+						}
+						if (event.getEventAction().equals(
+								SelectEvent.RIGHT_CLICK)) {
+
+							System.out
+									.println("bye bye ! je suis plus sur le placemark");
+
 						}
 					}
 				}
 			});
-
-
 
 		}
 
@@ -134,11 +131,11 @@ public class PointMarkers extends ApplicationTemplate {
 
 		}
 
-
-
-		public double getDistance(Position pos1, Position pos2){
-			// source : falcultÈ des sciences :  Explication http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf	
-			// code source (‡ enlever) : http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points		
+		public double getDistance(Position pos1, Position pos2) {
+			// source : falculté des sciences : Explication
+			// http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf
+			// code source (��� enlever) :
+			// http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points
 
 			// r
 			int r = 6371;
@@ -146,42 +143,39 @@ public class PointMarkers extends ApplicationTemplate {
 			long tempsT1;
 			long tempsT2;
 
-
 			// POINT DE DEPART
-			double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());;
-			double lon1 =  Math.toRadians(pos1.getLongitude().getDegrees()); 
+			double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());
+			;
+			double lon1 = Math.toRadians(pos1.getLongitude().getDegrees());
 
 			// POINT D'ARRIVE
-			double lat2 =  Math.toRadians(pos2.getLatitude().getDegrees()) ;
-			double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());	
-
+			double lat2 = Math.toRadians(pos2.getLatitude().getDegrees());
+			double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());
 
 			tempsT1 = System.nanoTime();
-			double distance = distanceVolOiseauEntre2PointsAvecPrÈcision(lat1, lon1, lat2, lon2);
+			double distance = distanceVolOiseauEntre2PointsAvecPrecision(lat1,
+					lon1, lat2, lon2);
 			tempsT2 = System.nanoTime();
 
-			double distanceEnKm = distance * r ;
+			double distanceEnKm = distance * r;
 
-			tempsT1 = System.nanoTime();		
+			tempsT1 = System.nanoTime();
 			tempsT2 = System.nanoTime();
 
-			System.out.println("Temps (SansPrÈcision) : " + String.format("%10d",(tempsT2 - tempsT1)) + " ns");		
+			System.out.println("Temps (SansPrecision) : "
+					+ String.format("%10d", (tempsT2 - tempsT1)) + " ns");
 
-
-
-
-
-
-
-			return distanceEnKm ;
+			return distanceEnKm;
 		}
 
+		public static double distanceVolOiseauEntre2PointsAvecPrecision(
+				double lat1, double lon1, double lat2, double lon2) {
 
-		public static double distanceVolOiseauEntre2PointsAvecPrÈcision(double lat1, double lon1, double lat2, double lon2) {
+			return 2 * Math.asin(Math.sqrt(Math.pow(
+					(Math.sin((lat1 - lat2) / 2)), 2)
+					+ Math.cos(lat1) * Math.cos(lat2) *
 
-			return	2 *	Math.asin(Math.sqrt(Math.pow((Math.sin((lat1 - lat2) / 2)),2)+Math.cos(lat1) * Math.cos(lat2) * 
-
-					(Math.pow(Math.sin(((lon1-lon2)/2)),2))));
+					(Math.pow(Math.sin(((lon1 - lon2) / 2)), 2))));
 		}
 
 	}
