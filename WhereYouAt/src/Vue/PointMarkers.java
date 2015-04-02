@@ -21,6 +21,10 @@ import javax.swing.JOptionPane;
 import com.google.api.client.util.StringUtils;
 
 import Controleur.Coordonnees;
+import Controleur.TraceRouteConsommateur;
+import Graphe.Arc;
+import Graphe.Graphe;
+import Graphe.Sommet;
 
 public class PointMarkers extends ApplicationTemplate {
 	@SuppressWarnings("serial")
@@ -57,7 +61,8 @@ public class PointMarkers extends ApplicationTemplate {
 
 							System.out.println("l'ip est "
 									+ split[split.length - 1].toString());
-
+							
+							Arc.getVoisin(TraceRouteConsommateur.getGraphe(),new Sommet(split[split.length - 1].toString()));
 						}
 						if (event.getEventAction().equals(
 								SelectEvent.RIGHT_CLICK)) {
@@ -92,24 +97,7 @@ public class PointMarkers extends ApplicationTemplate {
 			// placemark attribute.
 			pointAttributeBlue.setImageColor(c.getCouleur()); // On choisir la
 			// couleur
-
-			// Changing font type, size and setting it to bold.
-			// pointAttributeBlue.setLabelFont(Font.decode(c.getIp()));
-			// Changing the label text color
-			// pointAttributeBlue.setLabelMaterial(Material.CYAN);
-			// Changing the text scale of the placemark 'pmBlue'
-			// pointAttributeBlue.setLabelScale(1.8);
-			// Setting text label for placemarkers.
-			// pointAttributeBlue.setLabelMaterial(Material.CYAN);
 			pmStandard.setLabelText(c.getSite() + " " + c.getIp());
-			// pmBlue.setLabelText("serveur du boss, ip: je te dis pas, Bold.");
-			// Setting up annotation pop-up to be activated with mouse-over
-			// at the placemark 'point2'.
-			// pmRed.setValue(AVKey.DISPLAY_NAME,
-			// "Text Displayed by mouse-over");
-
-			// Creating renderable layer to attach the markers.
-			// layer = new RenderableLayer();
 
 			// Adding placemarkers to the rederable layer
 			layer.addRenderable(pmStandard);
@@ -120,6 +108,7 @@ public class PointMarkers extends ApplicationTemplate {
 
 		}
 
+		// Dessine une ligne entre deux sommets
 		public void drawline(ArrayList<Position> lst, Color color) {
 			Polyline path = new Polyline(lst);
 			path.setFollowTerrain(this.followTerrain);
@@ -128,7 +117,6 @@ public class PointMarkers extends ApplicationTemplate {
 			insertBeforeCompass(getWwd(), layer);
 
 			this.getLayerPanel().update(this.getWwd());
-
 		}
 
 		public double getDistance(Position pos1, Position pos2) {

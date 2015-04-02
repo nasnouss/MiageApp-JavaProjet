@@ -103,7 +103,7 @@ public class TraceRouteProducteur extends Thread {
 							latitude = monIp.getLatitude(r);
 							longitude = monIp.getLongitude(r);
 
-							if (latitude != null && longitude != null) { // new
+							if (latitude != 0 && longitude != 0) { // new
 
 								pos = Position.fromDegrees(latitude, longitude);
 
@@ -132,7 +132,7 @@ public class TraceRouteProducteur extends Thread {
 
 							compteurLigneEtoile++;
 
-							if (compteurLigneEtoile == 5) { // si il y a 5 ligne
+							if (compteurLigneEtoile == 5) { // si il y a 5 lignes
 								// de suite on Kill
 								System.out.println("on a killer le thread");
 								running =false;

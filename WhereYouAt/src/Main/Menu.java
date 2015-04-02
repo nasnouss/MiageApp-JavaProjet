@@ -56,9 +56,9 @@ public class Menu {
 				+ "1. Lancer des traceroutes		 		\n"
 				+ "2. Ajouter des cibles aléatoires	\n" + "0. Exit						  		  ";
 
-		boolean out = false; // boolean pour conditionner la sortie
+		//boolean out = false; // boolean pour conditionner la sortie
 
-		while (!out) {
+		while (true) {
 
 			System.out.println("Veuillez faire un choix \n");
 
@@ -141,7 +141,7 @@ public class Menu {
 			// sortie
 			case "0":
 				System.out.println("Exit");
-				out = true;
+				//out = true;
 				break;
 			default:
 

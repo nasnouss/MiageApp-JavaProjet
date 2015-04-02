@@ -2,10 +2,7 @@ package RealProject;
 
 import gov.nasa.worldwind.geom.Position;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Traceroute {
 	private String site;
@@ -39,29 +36,5 @@ public class Traceroute {
 		this.listCoordonnees.add(pos);
 
 	}
-
-	public ArrayList<Position> getLastTwo(int cpt){
-		ArrayList<Position> lst2 = new ArrayList<Position>();
-
-
-		Set<Position> mySet = new HashSet<Position>(listCoordonnees);
-
-		// Créer une Nouvelle ArrayList à partir de Set
-		ArrayList<Position> lst = new ArrayList<Position>(mySet);
-		System.out.println("size de la liste des coordonnée" + lst.size());
-		
-		if(lst.size()>=2){
-			lst2.add(lst.get(lst.size()-2));
-			lst2.add(lst.get(lst.size()-1));
-		}
-		return lst2;
-	}
-
-
-
-
-
-
-
 
 }
