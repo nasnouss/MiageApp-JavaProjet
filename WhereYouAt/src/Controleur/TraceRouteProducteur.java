@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +45,7 @@ public class TraceRouteProducteur extends Thread {
 	}
 
 	public String getIp(String ligneTraceRoute) {
+		System.out.println("ligneTraceRoute  : " + ligneTraceRoute + "\n");
 		String monIp = "";
 		for (int i = 0; i < ligneTraceRoute.length(); i++) {
 			if (ligneTraceRoute.charAt(i) == '(') {
@@ -56,28 +56,26 @@ public class TraceRouteProducteur extends Thread {
 				break;
 			}
 		}
+		System.out.println("monIp = " + monIp +"\n");
 		return monIp;
 	}
 
 	public void run() {
 		int compteurLigneEtoile = 0;
 		Position pos;
-		boolean running = true ;
+		boolean running = true;
 		if (this.api == 1) {
 
-			System.out.println("GO " + id + "\n");
 			Double latitude;
 			Double longitude;
 			Color color = Tools.setCouleur();
-			
-			
-			
+
 			int cpt = 1;
 			DatabaseReader r = null;
 			Runtime runtime = Runtime.getRuntime();
 
 			try {
-				r = Ip.load(); // On charge la base de donn??es
+				r = Ip.load(); // On charge la base de donnees
 				final Process process = runtime.exec("traceroute "
 						+ siteATracer); // On lance le traceroute
 
@@ -88,14 +86,14 @@ public class TraceRouteProducteur extends Thread {
 				// on creer un enregistrement du traceroute
 
 				trace.setSite(siteATracer); // on initialise le traceroute avec
-				// le site ?? tracer
+				// le site a tracer
 
 				try {
 
 					while ((line = reader.readLine()) != null && running) {
-						if (!line.contains("* * *") && cpt > 2) {
+						if (!line.contains("* * *") && cpt > 1) {
 
-							compteurLigneEtoile = 0; // on remet ?? 0 le compter
+							compteurLigneEtoile = 0; // on remet a 0 le compter
 							// de ligne des etoiles
 
 							Ip monIp = new Ip(getIp(line)); // On Parse le
@@ -112,7 +110,7 @@ public class TraceRouteProducteur extends Thread {
 								buf.mettre(new Coordonnees(latitude, longitude,
 										siteATracer, getIp(line), color));
 
-								// on ajoute les positions ?? l'historique du
+								// on ajoute les positions a l'historique du
 								// traceroute
 
 								lstPos = trace.getListCoordonnees();
@@ -120,22 +118,14 @@ public class TraceRouteProducteur extends Thread {
 								trace.setListCoordonnees(lstPos);
 							}
 
-							System.out.println("Mon id = " + this.id
-									+ " site : " + siteATracer + " latitude "
-									+ latitude + "\n");
-							System.out.println("Mon id = " + this.id
-									+ " site : " + siteATracer + " longitude "
-									+ longitude + "\n");
-
 						} else {
-							System.out.println(line);
 
 							compteurLigneEtoile++;
 
-							if (compteurLigneEtoile == 5) { // si il y a 5 lignes
+							if (compteurLigneEtoile == 5) { // si il y a 5
+															// lignes
 								// de suite on Kill
-								System.out.println("on a killer le thread");
-								running =false;
+								running = false;
 								Thread.currentThread().sleep(5000);
 							}
 						}
@@ -155,14 +145,13 @@ public class TraceRouteProducteur extends Thread {
 				}
 			} catch (IOException e1) {
 				System.out
-						.println("Une erreur est survenue, probl??me chargement base de donn??es");
+						.println("Une erreur est survenue, probleme chargement base de donnees");
 				e1.printStackTrace();
 			}
 
 		}
 
 		if (api == 2) {
-			System.out.println("GO " + id + "\n");
 
 			int cpt = 1;
 			DatabaseReader r = null;
@@ -178,8 +167,6 @@ public class TraceRouteProducteur extends Thread {
 				String line = "";
 				try {
 
-					System.out.println("la courleur est :"
-							+ cds.getCouleur().toString());
 					Thread.currentThread().sleep(5000);
 					while ((line = reader.readLine()) != null) {
 						if (!line.contains("* * *") && cpt > 2 && running) {
@@ -205,7 +192,7 @@ public class TraceRouteProducteur extends Thread {
 								buf.mettre(cds); // On met dans le buffer la
 								// latitude et la longitude
 
-								// on ajoute les positions ?? l'historique du
+								// on ajoute les positions a l'historique du
 								// traceroute
 
 								lstPos = trace.getListCoordonnees();
@@ -214,22 +201,14 @@ public class TraceRouteProducteur extends Thread {
 
 							}
 
-							System.out.println("Mon id = " + this.id
-									+ " site : " + siteATracer + " latitude "
-									+ cds.getLatitude() + "\n");
-							System.out.println("Mon id = " + this.id
-									+ " site : " + siteATracer + " longitude "
-									+ cds.getLongitude() + "\n");
-
 						} else {
-							System.out.println(line);
 
 							compteurLigneEtoile++;
 
 							if (compteurLigneEtoile == 5) { // si il y a 5 ligne
 								// de suite on Kill
-								System.out.println("on a killer le thread");
-								running =false;
+								// System.out.println("on a killer le thread");
+								running = false;
 								Thread.currentThread().sleep(5000);
 							}
 						}

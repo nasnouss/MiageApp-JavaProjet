@@ -22,7 +22,6 @@ public class HostIPDataLoader {
 		URL urlHostIp;
 		try {
 			urlHostIp = new URL("http://api.hostip.info/?ip=" + point.getIp());
-			System.out.println("http://api.hostip.info/?ip=" + point.getIp());
 			URLConnection connection = urlHostIp.openConnection();
 
 			// Create a "parser factory" for creating SAX parsers

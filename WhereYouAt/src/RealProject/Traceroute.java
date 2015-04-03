@@ -6,13 +6,11 @@ import java.util.List;
 
 public class Traceroute {
 	private String site;
-	private List<Position> listCoordonnees ;
+	private List<Position> listCoordonnees;
 
-
-	public Traceroute(String site, List<Position> listCoordonnees ){
-		this.site=site;
-		this.listCoordonnees=listCoordonnees;
-
+	public Traceroute(String site, List<Position> listCoordonnees) {
+		this.site = site;
+		this.listCoordonnees = listCoordonnees;
 	}
 
 	public String getSite() {
@@ -31,10 +29,8 @@ public class Traceroute {
 		this.listCoordonnees = listCoordonnees;
 	}
 
-
-	public void addPos(Position pos){
+	public void addPos(Position pos) {
 		this.listCoordonnees.add(pos);
-
 	}
 
 }

@@ -28,7 +28,6 @@ public class Sommet {
 		// Si plusieurs fois la meme IP il faut l'ajouter une seule fois
 		for (Sommet s : graphe.listeSommets) {
 			if (c.getIp().equals(s.getIp())) {
-				System.out.println("Meme ip on l'ajoute pas à la liste des sommets");
 				bool = 1;
 				break;
 			}

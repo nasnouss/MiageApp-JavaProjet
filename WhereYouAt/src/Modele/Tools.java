@@ -92,10 +92,9 @@ public class Tools {
 		return Min + (int) (Math.random() * ((Max - Min) + 1));
 	}
 
-	public static Color setCouleur() { // new
+	public static Color setCouleur() {
 		Color randomColor;
 
-		// if (couleur==null){
 		Random rand = new Random();
 
 		float r = rand.nextFloat();
@@ -104,8 +103,6 @@ public class Tools {
 
 		randomColor = new Color(r, g, b);
 
-		// }
-		// System.out.println("print dans set couleur "+ randomColor);
 		return randomColor;
 	}
 }

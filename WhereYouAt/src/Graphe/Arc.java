@@ -27,8 +27,8 @@ public class Arc {
 		if (afficheVoisin == "") {
 			System.out.println("Il n'y a pas de voisin pour ce sommet");
 		} else {
-			System.out.println("Voici le(s) voisin(s) : " + afficheVoisin
-					+ "\n");
+			System.out.println("Voici le(s) voisin(s) de " + s.getIp() + " : "
+					+ afficheVoisin + "\n");
 		}
 
 	}

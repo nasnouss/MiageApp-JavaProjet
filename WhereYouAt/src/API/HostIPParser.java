@@ -13,7 +13,6 @@ public class HostIPParser extends DefaultHandler {
 
 	public boolean isDataOk() {
 		if (dataOk) {
-			System.out.println(point);
 		}
 		return dataOk;
 	}
@@ -49,9 +48,7 @@ public class HostIPParser extends DefaultHandler {
 			String[] coordinates = temp.split(",");
 			point.createCoordinate(Double.parseDouble(coordinates[1]),
 					Double.parseDouble(coordinates[0]));
-			System.out.println("coordinates[1] " + coordinates[1]
-					+ "coordinates[0]" + coordinates[1]);
-			dataOk = true;
+						dataOk = true;
 		}
 	}
 

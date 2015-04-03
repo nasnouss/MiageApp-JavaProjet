@@ -1,7 +1,6 @@
 package Vue;
 
 import gov.nasa.worldwind.WorldWind;
-import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.event.SelectEvent;
 import gov.nasa.worldwind.event.SelectListener;
 import gov.nasa.worldwind.geom.Position;
@@ -12,18 +11,11 @@ import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwind.util.measure.LengthMeasurer;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
-
 import java.awt.Color;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import com.google.api.client.util.StringUtils;
-
 import Controleur.Coordonnees;
 import Controleur.TraceRouteConsommateur;
 import Graphe.Arc;
-import Graphe.Graphe;
 import Graphe.Sommet;
 
 public class PointMarkers extends ApplicationTemplate {
@@ -55,14 +47,17 @@ public class PointMarkers extends ApplicationTemplate {
 
 						if (event.getEventAction().equals(
 								SelectEvent.LEFT_CLICK)) {
-							System.out
-									.println("j'ai touche le Placemark !!!!!!! negga !!!! ");
+							// System.out
+							// .println("j'ai touche le Placemark !!!!!!! negga !!!! ");
 							String split[] = point.getLabelText().split("\\s+");
 
-							System.out.println("l'ip est "
-									+ split[split.length - 1].toString());
-							
-							Arc.getVoisin(TraceRouteConsommateur.getGraphe(),new Sommet(split[split.length - 1].toString()));
+							// System.out.println("l'ip est "
+							// + split[split.length - 1].toString());
+
+							Arc.getVoisin(
+									TraceRouteConsommateur.getGraphe(),
+									new Sommet(split[split.length - 1]
+											.toString()));
 						}
 						if (event.getEventAction().equals(
 								SelectEvent.RIGHT_CLICK)) {
@@ -90,11 +85,7 @@ public class PointMarkers extends ApplicationTemplate {
 
 			// Creating new placemark attributes
 			PointPlacemarkAttributes pointAttributeBlue = new PointPlacemarkAttributes();
-			// Attaching the placemark attributes to the placemarks.
 			pmStandard.setAttributes(pointAttributeBlue);
-			// //pmBlue.setAttributes(pointAttributeBlue);
-			// Changing color of the placemarkers attached to their respective
-			// placemark attribute.
 			pointAttributeBlue.setImageColor(c.getCouleur()); // On choisir la
 			// couleur
 			pmStandard.setLabelText(c.getSite() + " " + c.getIp());

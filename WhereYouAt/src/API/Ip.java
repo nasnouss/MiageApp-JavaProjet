@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
@@ -13,9 +11,6 @@ import com.maxmind.geoip2.model.CityResponse;
 public class Ip {
 	private InetAddress ip;
 	private static String urlDataBase = "/Users/chourako/Desktop/GeoLite2-City.mmdb";
-
-	// "/Users/chourako/Desktop/GeoLite2-City.mmdb"
-	// Modifier le 02/04/15
 
 	public Ip(String ip) throws UnknownHostException {
 		this.ip = InetAddress.getByName(ip);
@@ -40,10 +35,9 @@ public class Ip {
 			location = response.getLocation().getLatitude();
 
 		} catch (Exception e) {
-			System.out.println("Unknown");
+			//System.out.println("Unknown");
 
 		}
-		System.out.println("location = " + location);
 		return location;
 	}
 
@@ -63,7 +57,6 @@ public class Ip {
 			location = response.getLocation().getLongitude();
 
 		} catch (Exception e) {
-			System.out.println("Unknown");
 		}
 		return location;
 

@@ -1,38 +1,35 @@
 package Controleur;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Buffer {
-	
+
 	private boolean available = false;
 	private List<Coordonnees> listCoordonnees = new ArrayList<Coordonnees>();
 	private List<Coordonnees> historique = new ArrayList<Coordonnees>();
-	
+
 	int index = 0;
+
 	// Methode qui renvoie un Coordonnées latitude longitude
 	public synchronized Coordonnees prendre() {
-		System.out.println("yes");
+		// System.out.println("yes");
 		Coordonnees c = null;
 		while (available == false) {
 			try {
 				wait();
+			} catch (InterruptedException e) {
 			}
-			catch (InterruptedException e) { }
 		}
-		//index--;
-		available = false; 
-		System.out.println("je prends et je notife\n" + listCoordonnees.size() );
-		if (listCoordonnees != null && !listCoordonnees.isEmpty()){
-			
+		available = false;
+		if (listCoordonnees != null && !listCoordonnees.isEmpty()) {
+
 			c = listCoordonnees.remove(listCoordonnees.size() - 1);
 
 		}
 		notifyAll();
 		return c;
-		
+
 	}
 
 	// Methode qui met dans le buffer un coordonnées
@@ -40,17 +37,16 @@ public class Buffer {
 		while (available == true) {
 			try {
 				wait();
-			} catch (InterruptedException e) { 
+			} catch (InterruptedException e) {
 
 			}
 		}
-		System.out.println("je mets et je notife \n");
-		
-		//Set<Coordonnees> mySet = new HashSet<Coordonnees>(listCoordonnees);
-		//listCoordonnees = new ArrayList<Coordonnees>();
-		listCoordonnees.add(new Coordonnees(c.getLatitude(), c.getLongitude(),c.getSite(),c.getIp(),c.getCouleur()));
-		historique.add(new Coordonnees(c.getLatitude(), c.getLongitude(),c.getSite(),c.getIp(),c.getCouleur()));
-		available = true; 
+
+		listCoordonnees.add(new Coordonnees(c.getLatitude(), c.getLongitude(),
+				c.getSite(), c.getIp(), c.getCouleur()));
+		historique.add(new Coordonnees(c.getLatitude(), c.getLongitude(), c
+				.getSite(), c.getIp(), c.getCouleur()));
+		available = true;
 		notifyAll();
 	}
 }

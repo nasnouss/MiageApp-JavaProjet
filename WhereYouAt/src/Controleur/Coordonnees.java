@@ -7,23 +7,20 @@ public class Coordonnees {
 	private Double latitude;
 	private Double longitude;
 	private String site;
-	private Color couleur; // new
+	private Color couleur; 
 	private String Ip;
 
 	public Coordonnees(Double latitude, Double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-		// this.couleur = setCouleur(); // new
 	}
 
 	public Coordonnees(String ip) {
 		this.Ip = ip;
-		// this.couleur = setCouleur(); // new
 
 	}
 
 	public Coordonnees() {
-		// this.couleur = setCouleur(); // new
 	}
 
 	public Coordonnees(String ip, Color couleur) {
@@ -35,10 +32,9 @@ public class Coordonnees {
 		Ip = ip;
 	}
 
-	public Coordonnees(Double latitude, Double longitude, String site, String Ip) { // new
+	public Coordonnees(Double latitude, Double longitude, String site, String Ip) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-		// this.couleur = setCouleur(); // new
 		this.site = site;
 		this.Ip = Ip;
 	}
@@ -47,7 +43,6 @@ public class Coordonnees {
 			String ip, Color color) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-		// this.couleur = setCouleur(); // new
 		this.site = siteATracer;
 		this.Ip = ip;
 		this.couleur = color;
