@@ -123,7 +123,7 @@ public class Menu {
 
 					ltrProd.add(new TraceRouteProducteur(c, j, siteATracer,
 							Integer.parseInt(choixAPI), trace, Tools
-									.setCouleur(), this));
+									.setCouleur()));
 					ltrCons.add(new TraceRouteConsommateur(c, j, a, trace,
 							graphe, historique));
 					nbLancer++;
@@ -151,7 +151,7 @@ public class Menu {
 					String ip = Tools.randomIp();
 					ltrProd.add(new TraceRouteProducteur(c, i, ip, 1,
 							new Traceroute(ip, new ArrayList<Position>()),
-							Tools.setCouleur(), this));
+							Tools.setCouleur()));
 					ltrCons.add(new TraceRouteConsommateur(c, i, a,
 							new Traceroute(ip, new ArrayList<Position>()),
 							graphe, historique));

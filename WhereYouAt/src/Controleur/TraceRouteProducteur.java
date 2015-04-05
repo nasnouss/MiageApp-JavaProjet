@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,16 @@ public class TraceRouteProducteur extends Thread {
 	private int id;
 	private String siteATracer;
 	private int api;
-	List<Coordonnees> lstcoor; // new
-	static int nbTraceroute; // new
-	private Traceroute trace; // pour avoir l'historique du traceroute
+	List<Coordonnees> lstcoor; 
+	static int nbTraceroute; 
+	private Traceroute trace; // Permet de garder l'historique d'un traceroute
 	private Coordonnees cds;
 	private List<Position> lstPos;
-	private Menu m;
-
 	public TraceRouteProducteur() {
 	}
 
 	public TraceRouteProducteur(Buffer buf, int id, String siteATracer,
-			int api, Traceroute trace, Color couleur,Menu m) {
+			int api, Traceroute trace, Color couleur) {
 		this.buf = buf;
 		this.id = id;
 		this.siteATracer = siteATracer;
@@ -43,7 +42,6 @@ public class TraceRouteProducteur extends Thread {
 		this.trace = trace;
 		this.cds = new Coordonnees(siteATracer, couleur);
 		this.lstPos = new ArrayList<Position>();
-		this.m = m;
 
 	}
 
@@ -83,180 +81,113 @@ public class TraceRouteProducteur extends Thread {
 		this.siteATracer = siteATracer;
 	}
 
+	public void executeAPI(Ip monIp, Color color) throws IOException,
+			GeoIp2Exception {
+		DatabaseReader r = null;
+		Position pos;
+		Double latitude;
+		Double longitude;
+
+		if (this.api == 1) {
+			try {
+				// On charge la base de donnees
+				r = Ip.load();
+			} catch (IOException e) {
+				System.out.println("Impossible de charger la BDD");
+			}
+
+			latitude = monIp.getLatitude(r);
+			longitude = monIp.getLongitude(r);
+
+			if (latitude != 0 && longitude != 0) { // new
+
+				pos = Position.fromDegrees(latitude, longitude);
+
+				// On met dans le buffer la latitude et la longitude
+				buf.mettre(new Coordonnees(latitude, longitude, siteATracer,
+						monIp.getIp().getHostAddress(), color));
+
+				// on ajoute les positions a l'historique du traceroute
+				lstPos = trace.getListCoordonnees();
+				lstPos.add(pos);
+				trace.setListCoordonnees(lstPos);
+			}
+
+		} else {
+			cds.setIp(monIp.getIp().getHostAddress());
+
+			HostIPDataLoader hdl = new HostIPDataLoader();
+			hdl.getPointData(cds);
+
+			if (cds.getLatitude() != null || cds.getLongitude() != null) {
+
+				cds.setSite(siteATracer);
+
+				pos = Position.fromDegrees(cds.getLatitude(),
+						cds.getLongitude());
+				// On met dans le buffer la latitude et la longitude
+				buf.mettre(cds);
+
+				// on ajoute les positions a l'historique du traceroute
+
+				lstPos = trace.getListCoordonnees();
+				lstPos.add(pos);
+				trace.setListCoordonnees(lstPos);
+			}
+
+		}
+
+	}
+
 	public void run() {
 		int compteurLigneEtoile = 0;
-		Position pos;
 		boolean running = true;
-		if (this.api == 1) {
+		Color color = Tools.setCouleur();
 
-			Double latitude;
-			Double longitude;
-			Color color = Tools.setCouleur();
+		Runtime runtime = Runtime.getRuntime();
 
-			int cpt = 1;
-			DatabaseReader r = null;
-			Runtime runtime = Runtime.getRuntime();
-
-			try {
-				r = Ip.load(); // On charge la base de donnees
-				final Process process = runtime.exec("traceroute "
-						+ siteATracer); // On lance le traceroute
-
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(process.getInputStream()));
-				String line = "";
-
-				// on creer un enregistrement du traceroute
-
-				trace.setSite(siteATracer); // on initialise le traceroute avec
-				// le site a tracer
-
-				try {
-
-					while ((line = reader.readLine()) != null && running) {
-						if (!line.contains("* * *") ) {
-							//System.out.println("IDDDDD = " + this.siteATracer);
-							compteurLigneEtoile = 0; // on remet a 0 le compter
-							// de ligne des etoiles
-
-							Ip monIp = new Ip(getIp(line)); // On Parse le
-							// traceroute
-							latitude = monIp.getLatitude(r);
-							longitude = monIp.getLongitude(r);
-
-							if (latitude != 0 && longitude != 0) { // new
-
-								pos = Position.fromDegrees(latitude, longitude);
-
-								// On met dans le buffer la latitude et la
-								// longitude
-								buf.mettre(new Coordonnees(latitude, longitude,
-										siteATracer, getIp(line), color));
-
-								// on ajoute les positions a l'historique du
-								// traceroute
-
-								lstPos = trace.getListCoordonnees();
-								lstPos.add(pos);
-								trace.setListCoordonnees(lstPos);
-							}
-
-						} else {
-
-							compteurLigneEtoile++;
-
-							if (compteurLigneEtoile == 5) { // si il y a 5
-															// lignes
-								// de suite on Kill
-								running = false;
-								Thread.currentThread().interrupt();
-							}
-						}
-						cpt++;
-
-					}
-				} catch (GeoIp2Exception e) {
-					e.printStackTrace();
-
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally { 
-					System.out.println("end");
-//					m.setLtrProd(this.getSiteATracer());
-//					System.out.println("sizeeeeeeeeeee =" + m.getLtrProd().size());
-					reader.close();
-
-				}
-			} catch (IOException e1) {
-				System.out
-						.println("Une erreur est survenue, probleme chargement base de donnees");
-				e1.printStackTrace();
-			}
-
+		Process process = null;
+		try {
+			// On lance le traceroute
+			process = runtime.exec("traceroute " + siteATracer);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		if (api == 2) {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				process.getInputStream()));
+		String line = "";
 
-			int cpt = 1;
-			DatabaseReader r = null;
-			Runtime runtime = Runtime.getRuntime();
+		// on initialise le traceroute avec le site a tracer
+		trace.setSite(siteATracer);
 
-			try {
+		try {
+			while ((line = reader.readLine()) != null && running) {
+				if (!line.contains("* * *")) {
+					// on remet a 0 le compteur de lignes des etoiles
+					compteurLigneEtoile = 0;
 
-				final Process process = runtime.exec("traceroute "
-						+ siteATracer); // On lance le traceroute
+					// on Parse le Traceroute
+					Ip monIp = new Ip(getIp(line));
+					executeAPI(monIp, color);
 
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(process.getInputStream()));
-				String line = "";
-				try {
+				} else {
 
-					Thread.currentThread().sleep(5000);
-					while ((line = reader.readLine()) != null) {
-						if (!line.contains("* * *") && cpt > 2 && running) {
+					compteurLigneEtoile++;
+					// S'il y a 5 lignes avec des etoiles on Kill le traceroute
 
-							compteurLigneEtoile = 0;
-
-							Ip monIp = new Ip(getIp(line)); // On Parse le
-							// traceroute
-
-							cds.setIp(monIp.getIp().getHostAddress());
-
-							HostIPDataLoader hdl = new HostIPDataLoader();
-							hdl.getPointData(cds);
-
-							if (cds.getLatitude() != null
-									|| cds.getLongitude() != null) { // new
-
-								cds.setSite(siteATracer);
-
-								pos = Position.fromDegrees(cds.getLatitude(),
-										cds.getLongitude());
-
-								buf.mettre(cds); // On met dans le buffer la
-								// latitude et la longitude
-
-								// on ajoute les positions a l'historique du
-								// traceroute
-
-								lstPos = trace.getListCoordonnees();
-								lstPos.add(pos);
-								trace.setListCoordonnees(lstPos);
-
-							}
-
-						} else {
-
-							compteurLigneEtoile++;
-
-							if (compteurLigneEtoile == 5) { // si il y a 5 ligne
-								// de suite on Kill
-								// System.out.println("on a killer le thread");
-								running = false;
-								Thread.currentThread().interrupt();
-							}
-						}
-						cpt++;
-
+					if (compteurLigneEtoile == 5) {
+						running = false;
+						Thread.currentThread().interrupt();
+						System.out.println("end");
+						
 					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally { // fo			
-					System.out.println("end");
-//					m.setLtrProd(this.getSiteATracer());
-//					System.out.println("sizeeeeeeeeeee =" + m.getLtrProd().size());
-					reader.close();
-
 				}
-			} catch (IOException e1) {
-				System.out
-						.println("Une erreur est survenue, probl??me chargement base de donn??es");
-				e1.printStackTrace();
-			}
-		}
 
+			}
+		} catch (IOException | GeoIp2Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
