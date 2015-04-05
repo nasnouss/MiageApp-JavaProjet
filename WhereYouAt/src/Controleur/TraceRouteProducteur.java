@@ -11,8 +11,9 @@ import java.util.List;
 
 import API.HostIPDataLoader;
 import API.Ip;
+import Main.Menu;
 import Modele.Tools;
-import RealProject.Traceroute;
+import Modele.Traceroute;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -28,12 +29,13 @@ public class TraceRouteProducteur extends Thread {
 	private Traceroute trace; // pour avoir l'historique du traceroute
 	private Coordonnees cds;
 	private List<Position> lstPos;
+	private Menu m;
 
 	public TraceRouteProducteur() {
 	}
 
 	public TraceRouteProducteur(Buffer buf, int id, String siteATracer,
-			int api, Traceroute trace, Color couleur) {
+			int api, Traceroute trace, Color couleur,Menu m) {
 		this.buf = buf;
 		this.id = id;
 		this.siteATracer = siteATracer;
@@ -41,23 +43,44 @@ public class TraceRouteProducteur extends Thread {
 		this.trace = trace;
 		this.cds = new Coordonnees(siteATracer, couleur);
 		this.lstPos = new ArrayList<Position>();
+		this.m = m;
 
 	}
 
+	// Permet de parser le traceroute
 	public String getIp(String ligneTraceRoute) {
-		System.out.println("ligneTraceRoute  : " + ligneTraceRoute + "\n");
+		int bool = 0;
 		String monIp = "";
-		for (int i = 0; i < ligneTraceRoute.length(); i++) {
-			if (ligneTraceRoute.charAt(i) == '(') {
-				while (ligneTraceRoute.charAt(i + 1) != ')') {
-					monIp = monIp + ligneTraceRoute.charAt(i + 1);
-					i++;
-				}
+		// Si la ligne ne commence pas par un chiffre alors il ne faut pas la
+		// compter, car on a deja pris un premier traceroute avant
+		for (int i = 0; i < 4; i++) {
+
+			if (ligneTraceRoute.charAt(i) != ' ') {
+				bool = 1;
 				break;
 			}
 		}
-		System.out.println("monIp = " + monIp +"\n");
+
+		if (bool == 1) {
+			for (int i = 0; i < ligneTraceRoute.length(); i++) {
+				if (ligneTraceRoute.charAt(i) == '(') {
+					while (ligneTraceRoute.charAt(i + 1) != ')') {
+						monIp = monIp + ligneTraceRoute.charAt(i + 1);
+						i++;
+					}
+					break;
+				}
+			}
+		}
 		return monIp;
+	}
+
+	public String getSiteATracer() {
+		return siteATracer;
+	}
+
+	public void setSiteATracer(String siteATracer) {
+		this.siteATracer = siteATracer;
 	}
 
 	public void run() {
@@ -91,8 +114,8 @@ public class TraceRouteProducteur extends Thread {
 				try {
 
 					while ((line = reader.readLine()) != null && running) {
-						if (!line.contains("* * *") && cpt > 1) {
-
+						if (!line.contains("* * *") ) {
+							//System.out.println("IDDDDD = " + this.siteATracer);
 							compteurLigneEtoile = 0; // on remet a 0 le compter
 							// de ligne des etoiles
 
@@ -126,7 +149,7 @@ public class TraceRouteProducteur extends Thread {
 															// lignes
 								// de suite on Kill
 								running = false;
-								Thread.currentThread().sleep(5000);
+								Thread.currentThread().interrupt();
 							}
 						}
 						cpt++;
@@ -135,11 +158,13 @@ public class TraceRouteProducteur extends Thread {
 				} catch (GeoIp2Exception e) {
 					e.printStackTrace();
 
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} finally { // fo
+				} finally { 
 					System.out.println("end");
+//					m.setLtrProd(this.getSiteATracer());
+//					System.out.println("sizeeeeeeeeeee =" + m.getLtrProd().size());
 					reader.close();
 
 				}
@@ -209,7 +234,7 @@ public class TraceRouteProducteur extends Thread {
 								// de suite on Kill
 								// System.out.println("on a killer le thread");
 								running = false;
-								Thread.currentThread().sleep(5000);
+								Thread.currentThread().interrupt();
 							}
 						}
 						cpt++;
@@ -218,8 +243,10 @@ public class TraceRouteProducteur extends Thread {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} finally { // fo
+				} finally { // fo			
 					System.out.println("end");
+//					m.setLtrProd(this.getSiteATracer());
+//					System.out.println("sizeeeeeeeeeee =" + m.getLtrProd().size());
 					reader.close();
 
 				}

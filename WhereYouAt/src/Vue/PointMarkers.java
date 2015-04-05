@@ -47,17 +47,12 @@ public class PointMarkers extends ApplicationTemplate {
 
 						if (event.getEventAction().equals(
 								SelectEvent.LEFT_CLICK)) {
-							// System.out
-							// .println("j'ai touche le Placemark !!!!!!! negga !!!! ");
 							String split[] = point.getLabelText().split("\\s+");
-
-							// System.out.println("l'ip est "
-							// + split[split.length - 1].toString());
-
 							Arc.getVoisin(
 									TraceRouteConsommateur.getGraphe(),
 									new Sommet(split[split.length - 1]
 											.toString()));
+
 						}
 						if (event.getEventAction().equals(
 								SelectEvent.RIGHT_CLICK)) {
@@ -110,53 +105,52 @@ public class PointMarkers extends ApplicationTemplate {
 			this.getLayerPanel().update(this.getWwd());
 		}
 
-		public double getDistance(Position pos1, Position pos2) {
-			// source : falculté des sciences : Explication
-			// http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf
-			// code source (��� enlever) :
-			// http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points
+	}
 
-			// r
-			int r = 6371;
+	public static double distanceVolOiseauEntre2PointsAvecPrecision(
+			double lat1, double lon1, double lat2, double lon2) {
 
-			long tempsT1;
-			long tempsT2;
+		return 2 * Math.asin(Math.sqrt(Math.pow((Math.sin((lat1 - lat2) / 2)),
+				2) + Math.cos(lat1) * Math.cos(lat2) *
 
-			// POINT DE DEPART
-			double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());
-			;
-			double lon1 = Math.toRadians(pos1.getLongitude().getDegrees());
+		(Math.pow(Math.sin(((lon1 - lon2) / 2)), 2))));
+	}
 
-			// POINT D'ARRIVE
-			double lat2 = Math.toRadians(pos2.getLatitude().getDegrees());
-			double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());
+	public static double getDistance(Position pos1, Position pos2) {
+		// source : falculté des sciences : Explication
+		// http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf
+		// code source (��� enlever) :
+		// http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points
 
-			tempsT1 = System.nanoTime();
-			double distance = distanceVolOiseauEntre2PointsAvecPrecision(lat1,
-					lon1, lat2, lon2);
-			tempsT2 = System.nanoTime();
+		// r
+		int r = 6371;
 
-			double distanceEnKm = distance * r;
+		long tempsT1;
+		long tempsT2;
 
-			tempsT1 = System.nanoTime();
-			tempsT2 = System.nanoTime();
+		// POINT DE DEPART
+		double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());
+		;
+		double lon1 = Math.toRadians(pos1.getLongitude().getDegrees());
 
-			System.out.println("Temps (SansPrecision) : "
-					+ String.format("%10d", (tempsT2 - tempsT1)) + " ns");
+		// POINT D'ARRIVE
+		double lat2 = Math.toRadians(pos2.getLatitude().getDegrees());
+		double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());
 
-			return distanceEnKm;
-		}
+		tempsT1 = System.nanoTime();
+		double distance = distanceVolOiseauEntre2PointsAvecPrecision(lat1,
+				lon1, lat2, lon2);
+		tempsT2 = System.nanoTime();
 
-		public static double distanceVolOiseauEntre2PointsAvecPrecision(
-				double lat1, double lon1, double lat2, double lon2) {
+		double distanceEnKm = distance * r;
 
-			return 2 * Math.asin(Math.sqrt(Math.pow(
-					(Math.sin((lat1 - lat2) / 2)), 2)
-					+ Math.cos(lat1) * Math.cos(lat2) *
+		tempsT1 = System.nanoTime();
+		tempsT2 = System.nanoTime();
 
-					(Math.pow(Math.sin(((lon1 - lon2) / 2)), 2))));
-		}
+//		System.out.println("Temps (SansPrecision) : "
+//				+ String.format("%10d", (tempsT2 - tempsT1)) + " ns");
 
+		return distanceEnKm;
 	}
 
 }

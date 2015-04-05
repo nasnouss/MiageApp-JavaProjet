@@ -9,25 +9,28 @@ public class Sommet {
 	Coordonnees c;
 	String siteATracer;
 	List<Sommet> adjacente = new ArrayList<Sommet>();
-	int distance;
+	double distance;
 	Graphe graphe;
 	String ip;
 	int bool;
+	int PremierSommet; // 0 si premier Sommet sinon 1;
 
 	public Sommet(String ip) {
 		this.ip = ip;
 	}
 
-	public Sommet(Coordonnees c, String siteATracer, int distance, Graphe graphe) {
+	public Sommet(Coordonnees c, String siteATracer, double distance, Graphe graphe,int PremierSommet) {
 		super();
 		bool=0;
 		this.c = c;
 		this.siteATracer = siteATracer;
 		this.distance = distance;
 		this.graphe = graphe;
+		this.PremierSommet = PremierSommet ;
 		// Si plusieurs fois la meme IP il faut l'ajouter une seule fois
 		for (Sommet s : graphe.listeSommets) {
 			if (c.getIp().equals(s.getIp())) {
+				System.out.println("Sommet Existe deja :  "+ siteATracer + " ->" + s.getIp());
 				bool = 1;
 				break;
 			}
@@ -56,6 +59,18 @@ public class Sommet {
 
 	public void setSiteATracer(String siteATracer) {
 		this.siteATracer = siteATracer;
+	}
+	
+	public int getPremierSommet(){
+		return PremierSommet;
+	}
+	
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+	
+	public double getDistance() {
+		return this.distance ;
 	}
 
 }

@@ -1,5 +1,6 @@
 package Modele;
 
+import java.security.Provider.Service;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,21 +9,28 @@ import Controleur.TraceRouteConsommateur;
 import Controleur.TraceRouteProducteur;
 import Main.Menu;
 
-public class Pool extends Thread {
+public class Pool  {//extends Thread
 	int pool;
+	private Menu m;
+	ExecutorService executeProd;
+	ExecutorService executeConso;
 
-	public Pool(int pool) {
+
+	public Pool(int pool,Menu m) {
 		this.pool = pool;
-
+		this.m = m;
+		this.executeProd = Executors.newFixedThreadPool(pool);
+		this.executeConso = Executors.newFixedThreadPool(pool);
 	}
 
-	public void run() {
+	public void start(TraceRouteProducteur traceRouteProducteur, TraceRouteConsommateur traceRouteConsommateur){
 
-		ExecutorService executeProd = Executors.newFixedThreadPool(pool);
-		ExecutorService executeConso = Executors.newFixedThreadPool(pool);
+		executeProd.execute(traceRouteProducteur);
+		executeConso.execute(traceRouteConsommateur);
+//		executePoolProd(executeProd, m.getLtrProd());
+//		executePoolConso(executeConso, m.getLtrCons());
+		System.out.println("NB LISTE EXECUTOR  = " + m.getLtrProd().size());
 
-		executePoolProd(executeProd, Menu.ltrProd);
-		executePoolConso(executeConso, Menu.ltrCons);
 
 	}
 
@@ -31,8 +39,8 @@ public class Pool extends Thread {
 
 		for (TraceRouteProducteur r : lstprod) {
 			service.execute(r);
-
 		}
+
 		service.shutdown();
 	}
 
@@ -44,10 +52,6 @@ public class Pool extends Thread {
 
 		}
 		service.shutdown();
-	}
-
-	public static void main(String[] args) {
-
 	}
 
 }
