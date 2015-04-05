@@ -33,7 +33,8 @@ public class Graphe {
 		}
 		return texte.toString();
 	}
-
+	
+	//Retourne le Premier Sommet du Graphe pour un traceroute
 	public Sommet getPremierSommet() {
 		Sommet sommetCourant = null;
 		ListIterator<Sommet> liSommet = this.listeSommets.listIterator();
@@ -45,6 +46,27 @@ public class Graphe {
 
 		}
 		return sommetCourant;
+	}
+
+	public Sommet getSommet(Sommet s) {
+		Sommet sommetCourant = null;
+		ListIterator<Sommet> liSommet = this.listeSommets.listIterator();
+		while (liSommet.hasNext()) {
+			if (liSommet.next().equals(s)) {
+				sommetCourant = liSommet.next();
+				break;
+			}
+		}
+		return sommetCourant;
+	}
+	
+	public boolean existeSommet(Sommet s) {
+		for (Sommet ss : this.listeSommets) {
+			if (ss.getIp() == s.getIp()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

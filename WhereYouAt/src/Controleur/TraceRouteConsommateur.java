@@ -71,7 +71,6 @@ public class TraceRouteConsommateur extends Thread {
 
 				// Si on a au moins deux sommets on ajoute un arc entre eux
 				// s'ils se suivents
-
 				ListIterator<Sommet> liSommets = graphe.listeSommets
 						.listIterator(graphe.listeSommets.size() - 1);
 				while (liSommets.hasPrevious()) {
@@ -88,34 +87,35 @@ public class TraceRouteConsommateur extends Thread {
 								.getLatitude(), s2.getC().getLongitude()));
 						a.drawline(lastTwo, c.getCouleur());
 						break;
-					} else {
-						if (item.getIp().equals(s2.getIp())) {
-							// Il faut alors mettre un arc en item et les
-							// voisins suivants de s2
-							Sommet sommetTemp = item;
-							sommetTemp.setSiteATracer(s2.getSiteATracer());
-//							System.out.println("sommetTemp = "
-//									+ sommetTemp.getSiteATracer());
-//							historique.add(sommetTemp);
-						}
-
-						for (Sommet sommet : historique) {
-							if (sommet.getSiteATracer().equals(
-									s2.getSiteATracer())) {// &&
-															// (!sommet.getIp().equals(s2.getIp()))
-//								System.out.println("sommet IIIII = "
-//										+ sommet.getSiteATracer()
-//										+ "sommet IP = " + sommet.getIp()
-//										+ "s2 IP " + s2.getIp());
-
-								Arc arc = new Arc(item, s2);
-								arc.addArc(graphe, arc);
-								historique.remove(sommet);
-								break;
-							}
-						}
-
-					}
+					} 
+					//						else {
+//						if (item.getIp().equals(s2.getIp())) {
+//							// Il faut alors mettre un arc en item et les
+//							// voisins suivants de s2
+//							Sommet sommetTemp = item;
+//							sommetTemp.setSiteATracer(s2.getSiteATracer());
+////							System.out.println("sommetTemp = "
+////									+ sommetTemp.getSiteATracer());
+////							historique.add(sommetTemp);
+//						}
+//
+//						for (Sommet sommet : historique) {
+//							if (sommet.getSiteATracer().equals(
+//									s2.getSiteATracer())) {// &&
+//															// (!sommet.getIp().equals(s2.getIp()))
+////								System.out.println("sommet IIIII = "
+////										+ sommet.getSiteATracer()
+////										+ "sommet IP = " + sommet.getIp()
+////										+ "s2 IP " + s2.getIp());
+//
+//								Arc arc = new Arc(item, s2); // Changer item pour rattacher au bon sommet 
+//								arc.addArc(graphe, arc);
+//								historique.remove(sommet);
+//								break;
+//							}
+//						}
+//
+//					}
 				}
 
 			}

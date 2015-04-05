@@ -1,5 +1,9 @@
 package Graphe;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 public class Arc {
 
 	Sommet s1;
@@ -14,16 +18,59 @@ public class Arc {
 		graphe.listeArcs.add(arc);
 	}
 
+	/**
+	 * Affiche les Voisins d'un sommet du graphe
+	 * 
+	 * @param graphe
+	 * @param s
+	 */
 	public static void getVoisin(Graphe graphe, Sommet s) {
 		String afficheVoisin = "";
-		for (Arc voisin : graphe.listeArcs) {
-			if (voisin.s1.getIp().equals(s.getIp())) {
-				afficheVoisin += voisin.s2.getIp() + " ";
-			} else if (voisin.s2.getIp().equals(s.getIp())) {
-				afficheVoisin += voisin.s1.getIp() + " ";
-			}
-		}
+		// Pour ne pas afficherles doublons lorsqu'on a plusieursvoisins
+		List<String> histo = new ArrayList<String>();
 
+		int bool = 0;
+		for (Arc voisin : graphe.listeArcs) {
+
+			if (voisin.s1.getIp().equals(s.getIp())) {
+				for (String hi : histo) {
+					System.out.println(" hi = " + hi.toString());
+
+					
+					if (hi.equals(voisin.s2.getIp())) {
+						bool = 1;
+						break;
+					}
+
+				}
+				if (bool == 0) {
+					System.out.println(" voisin.s2.getIp() " + voisin.s2.getIp());
+
+					afficheVoisin += voisin.s2.getIp() + " ";
+					histo.add(voisin.s2.getIp());
+				}
+				bool = 0;
+
+			} else if (voisin.s2.getIp().equals(s.getIp())) {
+				for (String hi : histo) {
+					System.out.println(" hi = " + hi.toString());
+							
+
+					if (hi.equals(voisin.s1.getIp())) {
+						bool = 1;
+						break;
+					}
+				}
+				if (bool == 0) {
+					System.out.println(" voisin.s1.getIp() " + voisin.s1.getIp());
+
+					afficheVoisin += voisin.s1.getIp() + " ";
+					histo.add(voisin.s1.getIp());
+				}
+
+			}
+			bool = 0;
+		}
 		if (afficheVoisin == "") {
 			System.out.println("Il n'y a pas de voisin pour ce sommet");
 		} else {

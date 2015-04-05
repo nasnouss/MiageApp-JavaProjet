@@ -19,18 +19,20 @@ public class Sommet {
 		this.ip = ip;
 	}
 
-	public Sommet(Coordonnees c, String siteATracer, double distance, Graphe graphe,int PremierSommet) {
+	public Sommet(Coordonnees c, String siteATracer, double distance,
+			Graphe graphe, int PremierSommet) {
 		super();
-		bool=0;
+		bool = 0;
 		this.c = c;
 		this.siteATracer = siteATracer;
 		this.distance = distance;
 		this.graphe = graphe;
-		this.PremierSommet = PremierSommet ;
-		// Si plusieurs fois la meme IP il faut l'ajouter une seule fois
+		this.PremierSommet = PremierSommet;
+		// Si plusieurs fois la meme IP pour le meme site il ne faut pas l'ajouter 
 		for (Sommet s : graphe.listeSommets) {
-			if (c.getIp().equals(s.getIp())) {
-				System.out.println("Sommet Existe deja :  "+ siteATracer + " ->" + s.getIp());
+			if (c.getIp().equals(s.getIp()) && s.getSiteATracer()==siteATracer) {
+				System.out.println("Sommet Existe deja :  " + siteATracer
+						+ " ->" + s.getIp());
 				bool = 1;
 				break;
 			}
@@ -60,17 +62,34 @@ public class Sommet {
 	public void setSiteATracer(String siteATracer) {
 		this.siteATracer = siteATracer;
 	}
-	
-	public int getPremierSommet(){
+
+	public int getPremierSommet() {
 		return PremierSommet;
 	}
-	
+
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-	
+
 	public double getDistance() {
-		return this.distance ;
+		return this.distance;
 	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj instanceof Sommet) {
+//
+//			// Vérification des valeurs des attributs
+//			Sommet newSom = (Sommet) obj;
+//			return newSom.c == this.c && newSom.siteATracer == this.siteATracer
+//					&& newSom.distance == this.distance
+//					&& newSom.PremierSommet == this.PremierSommet;
+//		} else {
+//			return false;
+//		}
+//
+//	}
+
+	
 
 }
