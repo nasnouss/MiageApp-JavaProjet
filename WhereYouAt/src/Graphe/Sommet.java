@@ -5,6 +5,8 @@ import java.util.List;
 
 import Controleur.Coordonnees;
 
+
+
 public class Sommet {
 	Coordonnees c;
 	String siteATracer;
@@ -18,6 +20,16 @@ public class Sommet {
 	public Sommet(String ip) {
 		this.ip = ip;
 	}
+	
+	/**
+	* Constructeur qui permet de construire un nouvel objet Sommet
+	* @param c correspond a un objet Coordonnees
+	* @param siteATracer correspond au site du Traceroute 
+	* @param distance distance a l'origine
+	* @param graphe correspond à l'objet Graphe
+	* @param PremierSommet correspond au premier Sommet du graphe 0 si premier Sommet 1 sinon
+	* @since 1.0
+	*/
 
 	public Sommet(Coordonnees c, String siteATracer, double distance,
 			Graphe graphe, int PremierSommet) {
@@ -42,6 +54,11 @@ public class Sommet {
 		}
 	}
 
+	/**
+	* Methode getC()
+	* @return les Coordonnées d'un sommet
+	* @since 1.0
+	*/
 	public Coordonnees getC() {
 		return c;
 	}

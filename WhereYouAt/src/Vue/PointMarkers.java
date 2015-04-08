@@ -87,10 +87,11 @@ public class PointMarkers extends ApplicationTemplate {
 
 			// Adding placemarkers to the rederable layer
 			layer.addRenderable(pmStandard);
-
+			//this.getWwd().redraw();
+			
 			// Adding renderable layer to the application.
 			insertBeforeCompass(getWwd(), layer);
-			this.getLayerPanel().update(this.getWwd());
+			//this.getLayerPanel().update(this.getWwd());
 
 		}
 
