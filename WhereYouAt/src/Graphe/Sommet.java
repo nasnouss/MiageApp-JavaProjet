@@ -54,11 +54,13 @@ public class Sommet {
 		}
 	}
 
-	/**
-	* Methode getC()
-	* @return les Coordonnées d'un sommet
-	* @since 1.0
-	*/
+
+
+
+	
+
+	
+	
 	public Coordonnees getC() {
 		return c;
 	}

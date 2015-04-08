@@ -15,6 +15,7 @@ import API.Ip;
 import Main.Menu;
 import Modele.Tools;
 import Modele.Traceroute;
+import Statistique.StatDescriptives;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -145,7 +146,10 @@ public class TraceRouteProducteur extends Thread {
 		Color color = Tools.setCouleur();
 
 		Runtime runtime = Runtime.getRuntime();
-
+		
+		StatDescriptives.setNbTraceroute();
+		
+		
 		Process process = null;
 		try {
 			// On lance le traceroute
