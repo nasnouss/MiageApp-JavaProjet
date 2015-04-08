@@ -10,7 +10,7 @@ import com.maxmind.geoip2.model.CityResponse;
 
 public class Ip {
 	private InetAddress ip;
-	private static String urlDataBase = "/Users/chourako/Desktop/GeoLite2-City.mmdb";
+	private static String urlDataBase = "../BDD/GeoLite2-City.mmdb";
 
 	public Ip(String ip) throws UnknownHostException {
 		this.ip = InetAddress.getByName(ip);
