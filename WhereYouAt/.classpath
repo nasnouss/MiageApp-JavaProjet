@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="src/Lib_Projet_Java/geoip2-2.1.0-javadoc.jar"/>
 	<classpathentry kind="lib" path="src/Lib_Projet_Java/geoip2-2.1.0-sources.jar"/>
 	<classpathentry kind="lib" path="src/Lib_Projet_Java/geoip2-2.1.0.jar"/>
-	<classpathentry kind="lib" path="src/Lib_Projet_Java/GeoLite2-City.mmdb 2"/>
 	<classpathentry kind="lib" path="src/Lib_Projet_Java/gluegen-rt-natives-linux-amd64.jar"/>
 	<classpathentry kind="lib" path="src/Lib_Projet_Java/gluegen-rt-natives-linux-i586.jar"/>
 	<classpathentry kind="lib" path="src/Lib_Projet_Java/gluegen-rt-natives-macosx-universal.jar"/>
