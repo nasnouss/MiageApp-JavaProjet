@@ -64,12 +64,7 @@ public class Sommet {
 		}
 	}
 
-	/**
-	 * Methode getC()
-	 * 
-	 * @return les Coordonnées d'un sommet
-	 * @since 1.0
-	 */
+//github.com/nasnouss/MiageApp-JavaProjet.git
 	public Coordonnees getC() {
 		return c;
 	}

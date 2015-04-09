@@ -18,6 +18,7 @@ import Controleur.TraceRouteProducteur;
 import Modele.Pool;
 import Modele.Tools;
 import Modele.Traceroute;
+import Statistique.StatDescriptives;
 import Graphe.Arc;
 import Graphe.Graphe;
 import Graphe.Sommet;
@@ -190,7 +191,9 @@ public class Menu {
 
 				break;
 			case "4":
-
+				
+				StatDescriptives stat = new StatDescriptives(graphe);
+				stat.AffichageStat();
 				break;
 
 			// sortie

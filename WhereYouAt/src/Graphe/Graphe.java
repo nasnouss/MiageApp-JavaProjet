@@ -8,6 +8,10 @@ public class Graphe {
 	public LinkedList<Sommet> listeSommets = new LinkedList<Sommet>();
 	public LinkedList<Arc> listeArcs = new LinkedList<Arc>();
 
+	public int getNbSommets() {
+		return listeSommets.size();
+	}		  
+	
 	public Object[] getSommets() {
 		return listeSommets.toArray();
 	}
