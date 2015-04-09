@@ -11,7 +11,11 @@ public class Buffer {
 
 	int index = 0;
 
-	// Methode qui renvoie un Coordonnées latitude longitude
+	/**
+	 * Méthode qui prend du Buffer un objet Coordonnées 
+	 * @return un Coordonnees
+	 * @since 1.0
+	 */
 	public synchronized Coordonnees prendre() {
 		// System.out.println("yes");
 		Coordonnees c = null;
@@ -32,7 +36,11 @@ public class Buffer {
 
 	}
 
-	// Methode qui met dans le buffer un coordonnées
+	/**
+	 * Méthode qui met dans le Buffer un objet Coordonnées
+	 * @param c un Coordonnees
+	 * @since 1.0
+	 */
 	public synchronized void mettre(Coordonnees c) {
 		while (available == true) {
 			try {

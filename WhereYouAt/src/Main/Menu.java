@@ -61,7 +61,6 @@ public class Menu {
 		Graphe graphe = new Graphe();
 		int nbLancer = 0; // Nb Traceroute Lancer pendant l'application 
 		int PremierFois = 0; // Detecte si c'est la premier fois qu'on lance l'application
-		List<Sommet> historique = new ArrayList<Sommet>(); 
 		Vue.PointMarkers.AppFrame a = (Vue.PointMarkers.AppFrame) ApplicationTemplate
 				.start("Globe - Where You At", Vue.PointMarkers.AppFrame.class);
 
@@ -125,7 +124,7 @@ public class Menu {
 							Integer.parseInt(choixAPI), trace, Tools
 									.setCouleur()));
 					ltrCons.add(new TraceRouteConsommateur(c, j, a, trace,
-							graphe, historique));
+							graphe));
 					nbLancer++;
 
 					// POOL DE THREAD
@@ -154,7 +153,7 @@ public class Menu {
 							Tools.setCouleur()));
 					ltrCons.add(new TraceRouteConsommateur(c, i, a,
 							new Traceroute(ip, new ArrayList<Position>()),
-							graphe, historique));
+							graphe));
 					nbLancer++;
 
 					Allpool.start(ltrProd.get(i), ltrCons.get(i));

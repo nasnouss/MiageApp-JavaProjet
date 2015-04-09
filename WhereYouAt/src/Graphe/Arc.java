@@ -34,9 +34,7 @@ public class Arc {
 
 			if (voisin.s1.getIp().equals(s.getIp())) {
 				for (String hi : histo) {
-					System.out.println(" hi = " + hi.toString());
 
-					
 					if (hi.equals(voisin.s2.getIp())) {
 						bool = 1;
 						break;
@@ -44,7 +42,6 @@ public class Arc {
 
 				}
 				if (bool == 0) {
-					System.out.println(" voisin.s2.getIp() " + voisin.s2.getIp());
 
 					afficheVoisin += voisin.s2.getIp() + " ";
 					histo.add(voisin.s2.getIp());
@@ -53,8 +50,6 @@ public class Arc {
 
 			} else if (voisin.s2.getIp().equals(s.getIp())) {
 				for (String hi : histo) {
-					System.out.println(" hi = " + hi.toString());
-							
 
 					if (hi.equals(voisin.s1.getIp())) {
 						bool = 1;
@@ -62,7 +57,6 @@ public class Arc {
 					}
 				}
 				if (bool == 0) {
-					System.out.println(" voisin.s1.getIp() " + voisin.s1.getIp());
 
 					afficheVoisin += voisin.s1.getIp() + " ";
 					histo.add(voisin.s1.getIp());

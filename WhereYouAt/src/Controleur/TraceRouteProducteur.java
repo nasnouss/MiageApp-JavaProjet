@@ -6,13 +6,11 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import API.HostIPDataLoader;
 import API.Ip;
-import Main.Menu;
 import Modele.Tools;
 import Modele.Traceroute;
 
@@ -25,11 +23,12 @@ public class TraceRouteProducteur extends Thread {
 	private int id;
 	private String siteATracer;
 	private int api;
-	List<Coordonnees> lstcoor; 
-	static int nbTraceroute; 
+	List<Coordonnees> lstcoor;
+	static int nbTraceroute;
 	private Traceroute trace; // Permet de garder l'historique d'un traceroute
 	private Coordonnees cds;
 	private List<Position> lstPos;
+
 	public TraceRouteProducteur() {
 	}
 
@@ -179,8 +178,9 @@ public class TraceRouteProducteur extends Thread {
 					if (compteurLigneEtoile == 5) {
 						running = false;
 						Thread.currentThread().interrupt();
-						System.out.println("end");
-						
+						System.out.println("Fin du Traceroute : "
+								+ this.siteATracer);
+
 					}
 				}
 

@@ -35,6 +35,10 @@ public class PointMarkers extends ApplicationTemplate {
 			layer = new RenderableLayer();
 			this.measurer.setFollowTerrain(this.followTerrain);
 			this.measurer.setPathType(this.pathType);
+			insertAfterPlacenames(getWwd(), layer);
+//			insertBeforeCompass(getWwd(), layer);
+//			this.getLayerPanel().update(this.getWwd());
+
 
 			// Add a select listener in order to determine when the label is
 			// selected.
@@ -87,11 +91,13 @@ public class PointMarkers extends ApplicationTemplate {
 
 			// Adding placemarkers to the rederable layer
 			layer.addRenderable(pmStandard);
-			//this.getWwd().redraw();
-			
+			this.getWwd().redraw();
+
 			// Adding renderable layer to the application.
-			insertBeforeCompass(getWwd(), layer);
+			// insertBeforeCompass(getWwd(), layer);
+			// this.getLayerPanel().update(this.getWwd());
 			//this.getLayerPanel().update(this.getWwd());
+
 
 		}
 
@@ -101,9 +107,9 @@ public class PointMarkers extends ApplicationTemplate {
 			path.setFollowTerrain(this.followTerrain);
 			path.setColor(color);
 			layer.addRenderable(path);
-			insertBeforeCompass(getWwd(), layer);
+			//insertBeforeCompass(getWwd(), layer);
 
-			this.getLayerPanel().update(this.getWwd());
+			//this.getLayerPanel().update(this.getWwd());
 		}
 
 	}
@@ -148,8 +154,8 @@ public class PointMarkers extends ApplicationTemplate {
 		tempsT1 = System.nanoTime();
 		tempsT2 = System.nanoTime();
 
-//		System.out.println("Temps (SansPrecision) : "
-//				+ String.format("%10d", (tempsT2 - tempsT1)) + " ns");
+		// System.out.println("Temps (SansPrecision) : "
+		// + String.format("%10d", (tempsT2 - tempsT1)) + " ns");
 
 		return distanceEnKm;
 	}

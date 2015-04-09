@@ -5,8 +5,6 @@ import java.util.List;
 
 import Controleur.Coordonnees;
 
-
-
 public class Sommet {
 	Coordonnees c;
 	String siteATracer;
@@ -20,16 +18,23 @@ public class Sommet {
 	public Sommet(String ip) {
 		this.ip = ip;
 	}
-	
+
 	/**
-	* Constructeur qui permet de construire un nouvel objet Sommet
-	* @param c correspond a un objet Coordonnees
-	* @param siteATracer correspond au site du Traceroute 
-	* @param distance distance a l'origine
-	* @param graphe correspond à l'objet Graphe
-	* @param PremierSommet correspond au premier Sommet du graphe 0 si premier Sommet 1 sinon
-	* @since 1.0
-	*/
+	 * Constructeur qui permet de construire un nouvel objet Sommet
+	 * 
+	 * @param c
+	 *            correspond a un objet Coordonnees
+	 * @param siteATracer
+	 *            correspond au site du Traceroute
+	 * @param distance
+	 *            distance a l'origine
+	 * @param graphe
+	 *            correspond à l'objet Graphe
+	 * @param PremierSommet
+	 *            correspond au premier Sommet du graphe 0 si premier Sommet 1
+	 *            sinon
+	 * @since 1.0
+	 */
 
 	public Sommet(Coordonnees c, String siteATracer, double distance,
 			Graphe graphe, int PremierSommet) {
@@ -40,25 +45,31 @@ public class Sommet {
 		this.distance = distance;
 		this.graphe = graphe;
 		this.PremierSommet = PremierSommet;
-		// Si plusieurs fois la meme IP pour le meme site il ne faut pas l'ajouter 
-		for (Sommet s : graphe.listeSommets) {
-			if (c.getIp().equals(s.getIp()) && s.getSiteATracer()==siteATracer) {
-				System.out.println("Sommet Existe deja :  " + siteATracer
-						+ " ->" + s.getIp());
-				bool = 1;
-				break;
+		synchronized (graphe) {
+
+			// Si plusieurs fois la meme IP pour le meme site il ne faut pas
+			// l'ajouter
+			for (Sommet s : graphe.listeSommets) {
+				if (c.getIp().equals(s.getIp())
+						&& s.getSiteATracer() == siteATracer) {
+					System.out.println("Sommet Existe deja :  " + siteATracer
+							+ " ->" + s.getIp());
+					bool = 1;
+					break;
+				}
 			}
-		}
-		if (bool == 0) {
-			graphe.listeSommets.add(this);
+			if (bool == 0) {
+				graphe.listeSommets.add(this);
+			}
 		}
 	}
 
 	/**
-	* Methode getC()
-	* @return les Coordonnées d'un sommet
-	* @since 1.0
-	*/
+	 * Methode getC()
+	 * 
+	 * @return les Coordonnées d'un sommet
+	 * @since 1.0
+	 */
 	public Coordonnees getC() {
 		return c;
 	}
@@ -92,21 +103,19 @@ public class Sommet {
 		return this.distance;
 	}
 
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (obj instanceof Sommet) {
-//
-//			// Vérification des valeurs des attributs
-//			Sommet newSom = (Sommet) obj;
-//			return newSom.c == this.c && newSom.siteATracer == this.siteATracer
-//					&& newSom.distance == this.distance
-//					&& newSom.PremierSommet == this.PremierSommet;
-//		} else {
-//			return false;
-//		}
-//
-//	}
-
-	
+	// @Override
+	// public boolean equals(Object obj) {
+	// if (obj instanceof Sommet) {
+	//
+	// // Vérification des valeurs des attributs
+	// Sommet newSom = (Sommet) obj;
+	// return newSom.c == this.c && newSom.siteATracer == this.siteATracer
+	// && newSom.distance == this.distance
+	// && newSom.PremierSommet == this.PremierSommet;
+	// } else {
+	// return false;
+	// }
+	//
+	// }
 
 }

@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/Controleur/Buffer.java=UTF-8
+encoding//src/Controleur/Coordonnees.java=UTF-8
+encoding//src/Controleur/TraceRouteConsommateur.java=UTF-8
 encoding//src/Controleur/TraceRouteProducteur.java=UTF-8
 encoding//src/Graphe/Graphe.java=UTF-8
 encoding//src/Graphe/Sommet.java=UTF-8
