@@ -19,7 +19,7 @@ public class TraceRouteConsommateur extends Thread {
 	int id;
 	List<TraceRouteConsommateur> PremierSommetTraceRoute = new ArrayList<TraceRouteConsommateur>();
 	/**
-	 * Classe TraceRouteConsommateur est un Thread qui permet de placer les points sur le globe
+	 * Classe TraceRouteConsommateur est un Thread qui permet de placer les points sur le globe.
 	 * Cette classe prend les Coordonnées qui se trouve dans le buffer  
 	 * @param c Buffer de l'application
 	 * @param id Id du Traceroute
