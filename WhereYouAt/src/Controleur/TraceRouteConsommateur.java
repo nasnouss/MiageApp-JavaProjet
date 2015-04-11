@@ -18,14 +18,22 @@ public class TraceRouteConsommateur extends Thread {
 	private static Graphe graphe;
 	int id;
 	List<TraceRouteConsommateur> PremierSommetTraceRoute = new ArrayList<TraceRouteConsommateur>();
+
 	/**
-	 * Classe TraceRouteConsommateur est un Thread qui permet de placer les points sur le globe.
-	 * Cette classe prend les Coordonnées qui se trouve dans le buffer  
-	 * @param c Buffer de l'application
-	 * @param id Id du Traceroute
-	 * @param a AppFrame de l'application qui correspond au globe
-	 * @param trace Historise ce qui se passe sur un traceroute
-	 * @param graphe graphe de l'application
+	 * Classe TraceRouteConsommateur est un Thread qui permet de placer les
+	 * points sur le globe. Cette classe prend les Coordonnées qui se trouve
+	 * dans le buffer
+	 * 
+	 * @param c
+	 *            Buffer de l'application
+	 * @param id
+	 *            Id du Traceroute
+	 * @param a
+	 *            AppFrame de l'application qui correspond au globe
+	 * @param trace
+	 *            Historise ce qui se passe sur un traceroute
+	 * @param graphe
+	 *            graphe de l'application
 	 * @since 1.0
 	 */
 	public TraceRouteConsommateur(Buffer c, int id,
@@ -37,9 +45,12 @@ public class TraceRouteConsommateur extends Thread {
 	}
 
 	/**
-	 * Cette méthode permet de construire le graphe 
-	 * @param s2 Correspond au Sommet courant
-	 * @param c Correspond au Coordonnées present dans le Buffer
+	 * Cette méthode permet de construire le graphe
+	 * 
+	 * @param s2
+	 *            Correspond au Sommet courant
+	 * @param c
+	 *            Correspond au Coordonnées present dans le Buffer
 	 */
 	public void consGraphe(Sommet s2, Coordonnees c) {
 		ListIterator<Sommet> liSommets = graphe.listeSommets
@@ -113,10 +124,17 @@ public class TraceRouteConsommateur extends Thread {
 		}
 	}
 
+	/**
+	 * 
+	 * @return l'objet graphe
+	 */
 	public static Graphe getGraphe() {
 		return graphe;
 	}
 
+	/**
+	 * Affiche le graphe
+	 */
 	public static void afficheGraphe() {
 		System.out.println(graphe.toString());
 	}

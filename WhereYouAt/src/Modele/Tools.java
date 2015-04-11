@@ -1,7 +1,10 @@
 package Modele;
 
 import java.awt.Color;
+import java.net.UnknownHostException;
 import java.util.Random;
+
+import Main.Menu;
 
 public class Tools {
 
@@ -104,5 +107,76 @@ public class Tools {
 		randomColor = new Color(r, g, b);
 
 		return randomColor;
+	}
+
+	public static void trancheIp(String ip1, String ip2,int id)
+			throws UnknownHostException {
+		int part1;
+		int part2;
+		int part3;
+		int part4;
+		String ip = ip1;
+		String[] partIp1 = ip1.split("\\.");
+		int bool = 0;
+		Menu m = Menu.getInstance( );
+		if (ip1.equals(ip2)) {
+			System.out.println("L'ip de debut est identique à l'ip de fin");
+		} else {
+			if(id!=0){
+				id++;
+			}
+			m.lancerThread(id, ip1);
+			id++;
+
+			while (!ip.equals(ip2)) {
+
+				String[] parts = ip.split("\\.");
+
+				if (parts.length != 4) {
+					throw new IllegalArgumentException();
+				} else {
+					part1 = Integer.parseInt(parts[0]);
+					part2 = Integer.parseInt(parts[1]);
+					part3 = Integer.parseInt(parts[2]);
+					part4 = Integer.parseInt(parts[3]);
+
+					if (bool == 0 && part4 < 255) {
+						part4++;
+						ip = part1 + "." + part2 + "." + part3 + "." + part4;
+						bool = 1;
+
+					} else if (bool == 0 && part3 < 255) {
+						part3++;
+						if (part4 == 255 && (!partIp1[3].equals("255"))) {
+							part4 = 0;
+						}
+						ip = part1 + "." + part2 + "." + part3 + "." + part4;
+
+						bool = 1;
+
+					} else if (bool == 0 && part2 < 255) {
+						part2++;
+						if (part3 == 255 && (!partIp1[2].equals("255"))) {
+							part3 = 0;
+						}
+						ip = part1 + "." + part2 + "." + part3 + "." + part4;
+						bool = 1;
+					} else if (bool == 0 && part1 < 255) {
+						part1++;
+						if (part2 == 255 && (!partIp1[1].equals("255"))) {
+							part2 = 0;
+						}
+						ip = part1 + "." + part2 + "." + part3 + "." + part4;
+						bool = 1;
+					}
+
+				}
+				bool = 0;
+				m.lancerThread(id,ip);
+				id++;
+			}
+
+		}
+
 	}
 }

@@ -76,10 +76,16 @@ public class Coordonnees {
 		this.couleur = color;
 	}
 
+	/**
+	 * Methode qui retourne le site rattaché au Coordonnées
+	 * @return le site qui a été tracer pour des Coordonnées
+	 * @since 1.0
+	 */
 	public String getSite() {
 		return site;
 	}
 
+	
 	public void setSite(String site) {
 		this.site = site;
 	}

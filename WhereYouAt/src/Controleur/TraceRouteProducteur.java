@@ -98,7 +98,7 @@ public class TraceRouteProducteur extends Thread {
 			latitude = monIp.getLatitude(r);
 			longitude = monIp.getLongitude(r);
 
-			if (latitude != 0 && longitude != 0) { // new
+			if (latitude != 0.0 && longitude != 0.0) { // new
 
 				pos = Position.fromDegrees(latitude, longitude);
 

@@ -1,11 +1,14 @@
 eclipse.preferences.version=1
+encoding//src/API/Ip.java=UTF-8
 encoding//src/Controleur/Buffer.java=UTF-8
 encoding//src/Controleur/Coordonnees.java=UTF-8
 encoding//src/Controleur/TraceRouteConsommateur.java=UTF-8
 encoding//src/Controleur/TraceRouteProducteur.java=UTF-8
+encoding//src/Graphe/Arc.java=UTF-8
 encoding//src/Graphe/Graphe.java=UTF-8
 encoding//src/Graphe/Sommet.java=UTF-8
 encoding//src/Main/Menu.java=UTF-8
+encoding//src/Modele/Tools.java=UTF-8
 encoding//src/Modele/Traceroute.java=UTF-8
 encoding//src/Statistique/StatDescriptives.java=UTF-8
 encoding//src/Vue/PointMarkers.java=UTF-8

@@ -49,7 +49,6 @@ public class Buffer {
 
 			}
 		}
-
 		listCoordonnees.add(new Coordonnees(c.getLatitude(), c.getLongitude(),
 				c.getSite(), c.getIp(), c.getCouleur()));
 		historique.add(new Coordonnees(c.getLatitude(), c.getLongitude(), c

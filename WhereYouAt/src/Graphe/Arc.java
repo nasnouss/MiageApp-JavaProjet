@@ -1,13 +1,61 @@
 package Graphe;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
+import Modele.CSVColumnHeader;
+import Modele.CSVList;
 
 public class Arc {
 
 	Sommet s1;
 	Sommet s2;
+	@CSVColumnHeader(name = "Ip S1")
+	String ipS1;
+	@CSVColumnHeader(name = "longitutde S1")
+	Double longitutdeS1;
+	@CSVColumnHeader(name = "latitude S1")
+	Double latitudeS1;
+	@CSVColumnHeader(name = "Ip S2")
+	String ipS2;
+
+	public Arc() {
+
+	}
+
+	public void setIpS1(String ipS1) {
+		this.ipS1 = ipS1;
+	}
+
+	public void setLongitutdeS1(Double longitutdeS1) {
+		this.longitutdeS1 = longitutdeS1;
+	}
+
+	public void setLatitudeS1(Double latitudeS1) {
+		this.latitudeS1 = latitudeS1;
+	}
+
+	public void setIpS2(String ipS2) {
+		this.ipS2 = ipS2;
+	}
+
+	public void setLongitutdeS2(Double longitutdeS2) {
+		this.longitutdeS2 = longitutdeS2;
+	}
+
+	public void setLatitudeS2(Double latitudeS2) {
+		this.latitudeS2 = latitudeS2;
+	}
+
+	@CSVColumnHeader(name = "longitutde S2")
+	Double longitutdeS2;
+	@CSVColumnHeader(name = "latitude S2")
+	Double latitudeS2;
 
 	public Arc(Sommet s1, Sommet s2) {
 		this.s1 = s1;
@@ -78,6 +126,36 @@ public class Arc {
 		return new String("   arc: ( " + this.s1.getSiteATracer() + " "
 				+ this.s1.getIp() + " -> " + this.s1.getSiteATracer() + " "
 				+ this.s2.getIp() + " )");
+	}
+
+	public static void exportToCSV(Graphe graphe) throws IOException,
+			IllegalArgumentException, IllegalAccessException {
+		CSVList<Arc> arcCsv = new CSVList<Arc>();
+		FileWriter fw = new FileWriter(new File("./Export/Arcs.csv"));
+		BufferedWriter output = new BufferedWriter(fw);
+
+		synchronized (graphe) {
+
+			ListIterator<Arc> liSrc = graphe.listeArcs.listIterator();
+			while (liSrc.hasNext()) {
+				Arc arcCourant = liSrc.next();
+
+				Arc arc = new Arc();
+				arc.setIpS1(arcCourant.s1.getIp());
+				arc.setLatitudeS1(arcCourant.s1.getC().getLatitude());
+				arc.setLongitutdeS1(arcCourant.s1.getC().getLongitude());
+				arc.setIpS2(arcCourant.s2.getIp());
+				arc.setLatitudeS2(arcCourant.s2.getC().getLatitude());
+				arc.setLongitutdeS2(arcCourant.s2.getC().getLongitude());
+				arcCsv.add(arc);
+
+			}
+		}
+		output.write(arcCsv.toCSV());
+		output.flush();
+		System.out.println("L'export des Arcs est termine\n");
+
+		output.close();
 	}
 
 }

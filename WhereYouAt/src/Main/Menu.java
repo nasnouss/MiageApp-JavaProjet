@@ -5,12 +5,11 @@ import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Scanner;
-
-import com.google.api.client.util.Lists;
 
 import Controleur.Buffer;
 import Controleur.TraceRouteConsommateur;
@@ -24,71 +23,54 @@ import Graphe.Graphe;
 import Graphe.Sommet;
 
 public class Menu {
-	public List<TraceRouteProducteur> ltrProd;
-	public List<TraceRouteConsommateur> ltrCons;
+	public List<TraceRouteProducteur> ltrProd = new ArrayList<TraceRouteProducteur>();
+	public List<TraceRouteConsommateur> ltrCons = new ArrayList<TraceRouteConsommateur>();
+	Buffer c = new Buffer();
+	Graphe graphe = new Graphe();
+	int nbLancer = 0; // Nb Traceroute Lancer pendant l'application
+	int PremierFois = 0; // Detecte si c'est la premier fois qu'on lance
+							// l'application
+	static Vue.PointMarkers.AppFrame a;
+
+	Pool Allpool = null;
+	int pool;
+	private static Menu menu = new Menu();
 
 	public Menu() {
 	}
 
-	public List<TraceRouteProducteur> getLtrProd() {
-		return ltrProd;
-	}
-
-	public void setLtrProd(String site) {
-		ListIterator<TraceRouteProducteur> ltrProdTemp = ltrProd.listIterator();
-		while (ltrProdTemp.hasNext()) {
-
-			if (ltrProdTemp.next().getSiteATracer().equals(site)) {
-				ltrProdTemp.remove();
-			}
-		}
-
-		this.ltrProd = Lists.newArrayList(ltrProdTemp);
-	}
-
-	public List<TraceRouteConsommateur> getLtrCons() {
-		return ltrCons;
-	}
-
-	public void setLtrCons(List<TraceRouteConsommateur> ltrCons) {
-		this.ltrCons = ltrCons;
+	public static Menu getInstance() {
+		return menu;
 	}
 
 	public void Start() throws InterruptedException {
 
-		ltrProd = new ArrayList<TraceRouteProducteur>();
-		ltrCons = new ArrayList<TraceRouteConsommateur>();
-		Buffer c = new Buffer();
-		Graphe graphe = new Graphe();
-		int nbLancer = 0; // Nb Traceroute Lancer pendant l'application 
-		int PremierFois = 0; // Detecte si c'est la premier fois qu'on lance l'application
-		Vue.PointMarkers.AppFrame a = (Vue.PointMarkers.AppFrame) ApplicationTemplate
-				.start("Globe - Where You At", Vue.PointMarkers.AppFrame.class);
+		a = (Vue.PointMarkers.AppFrame) ApplicationTemplate.start(
+				"Globe - Where You At", Vue.PointMarkers.AppFrame.class);
 
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 
-		String menu = 
-				  "--------------------------------------------------------------------\n"
+		String menu = "--------------------------------------------------------------------\n"
 				+ " 					MENU  	       \n\n"
 				+ "--------------------------------------------------------------------\n\n\n"
 				+ "1. Lancer des traceroutes		 		\n"
-				+ "2. Ajouter des cibles aléatoires	\n"
-				+ "3. Graphe + Voisins	\n" + "4. Statistiques	\n"
+				+ "2. Ajouter des cibles aleatoires	\n"
+				+ "3. Ajouter des tranches d’adresses Ip	\n"
+				+ "4. Graphe + Voisins	\n"
+				+ "5. Statistiques	\n"
+				+ "6. Exporter le graphe en ficher csv           \n"
 				+ "0. Exit\n			  		  ";
 		System.out
 				.println("Combien de threads voulez-vous executer simultanement ?");
-		int pool = Integer.parseInt(sc.nextLine());
-		Pool Allpool = new Pool(pool, this);
+		pool = Integer.parseInt(sc.nextLine());
+		Allpool = Pool.getInstance(pool, this);
 
 		while (true) {
 
 			System.out.println("Veuillez faire un choix \n");
-
-			@SuppressWarnings("resource")
-			Scanner sc1 = new Scanner(System.in);
 			System.out.println(menu); // on affiche le menu
-			String choix = sc1.nextLine();
+			String choix = sc.nextLine();
 
 			switch (choix) {
 
@@ -121,9 +103,9 @@ public class Menu {
 					List<Position> lstpos = new ArrayList<Position>();
 					Traceroute trace = new Traceroute(siteATracer, lstpos);
 
-					ltrProd.add(new TraceRouteProducteur(c, j, siteATracer,
-							Integer.parseInt(choixAPI), trace, Tools
-									.setCouleur()));
+					this.ltrProd.add(new TraceRouteProducteur(c, j,
+							siteATracer, Integer.parseInt(choixAPI), trace,
+							Tools.setCouleur()));
 					ltrCons.add(new TraceRouteConsommateur(c, j, a, trace,
 							graphe));
 					nbLancer++;
@@ -134,19 +116,18 @@ public class Menu {
 				}
 				PremierFois++;
 
-
 				break;
 			case "2":
 
 				Scanner sc2 = new Scanner(System.in);
 				System.out.println("Combien de cibles voulez-vous ajouter ?");
-				int siteATracer = Integer.parseInt(sc2.nextLine());
+				int nbSiteATracer = Integer.parseInt(sc2.nextLine());
 
 				if (PremierFois != 0) {
-					siteATracer += nbLancer;
+					nbSiteATracer += nbLancer;
 				}
 
-				for (int i = nbLancer; i < siteATracer; i++) {
+				for (int i = nbLancer; i < nbSiteATracer; i++) {
 
 					String ip = Tools.randomIp();
 					ltrProd.add(new TraceRouteProducteur(c, i, ip, 1,
@@ -164,8 +145,21 @@ public class Menu {
 				PremierFois++;
 
 				break;
-
 			case "3":
+				System.out.println("Veuillez saisir l'ip de début : ");
+				String ip1 = sc.nextLine();
+				System.out.println("Veuillez saisir l'ip de fin : ");
+				String ip2 = sc.nextLine();
+				try {
+					System.out.println("nbLancer = " + nbLancer);
+					Tools.trancheIp(ip1, ip2, nbLancer);
+
+				} catch (UnknownHostException e) {
+					System.out.println("Une erreur est survenue plage ip");
+				}
+				break;
+
+			case "4":
 				System.out
 						.println("1 - Afficher le graphe\n 2-Afficher Voisin d'un sommet\n 0-Remonter au menu superieur\n");
 				Scanner aff = new Scanner(System.in);
@@ -190,22 +184,67 @@ public class Menu {
 				}
 
 				break;
-			case "4":
-				
+			case "5":
+
 				StatDescriptives stat = new StatDescriptives(graphe);
 				stat.AffichageStat();
 				break;
 
+			case "6":
+				try {
+					Sommet.exportToCSV(graphe);
+					Arc.exportToCSV(graphe);
+				} catch (IllegalArgumentException | IllegalAccessException
+						| IOException e) {
+					System.out
+							.println("Une erreur est survenue pendant l'export");
+				}
+
+				break;
 			// sortie
 			case "0":
 				System.out.println("Exit");
+				System.exit(0);
 				break;
-			default:
-
 			}
 
 		}
 
 	}
+
+	public void lancerThread(int i, String ip) {
+		List<Position> lstpos = new ArrayList<Position>();
+		Traceroute trace = new Traceroute(ip, lstpos);
+		ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, trace, Tools
+				.setCouleur()));
+		ltrCons.add(new TraceRouteConsommateur(c, i, a, trace, graphe));
+		Pool.getInstance(pool, Menu.getInstance()).start(ltrProd.get(i),
+				ltrCons.get(i));
+		nbLancer = nbLancer + i+1;
+	}
+
+	// public List<TraceRouteProducteur> getLtrProd() {
+	// return ltrProd;
+	// }
+	//
+	// public void setLtrProd(String site) {
+	// ListIterator<TraceRouteProducteur> ltrProdTemp = ltrProd.listIterator();
+	// while (ltrProdTemp.hasNext()) {
+	//
+	// if (ltrProdTemp.next().getSiteATracer().equals(site)) {
+	// ltrProdTemp.remove();
+	// }
+	// }
+	//
+	// this.ltrProd = Lists.newArrayList(ltrProdTemp);
+	// }
+	//
+	// public List<TraceRouteConsommateur> getLtrCons() {
+	// return ltrCons;
+	// }
+	//
+	// public void setLtrCons(List<TraceRouteConsommateur> ltrCons) {
+	// this.ltrCons = ltrCons;
+	// }
 
 }

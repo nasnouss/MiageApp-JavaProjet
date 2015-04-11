@@ -13,6 +13,13 @@ public class Pool {
 	private Menu m;
 	ExecutorService executeProd;
 	ExecutorService executeConso;
+	private static Pool monPool = null;
+
+	public synchronized static Pool getInstance(int pool, Menu m) {
+		if (monPool == null)
+			monPool = new Pool(pool, m);
+		return monPool;
+	}
 
 	public Pool(int pool, Menu m) {
 		this.pool = pool;
@@ -47,6 +54,10 @@ public class Pool {
 
 		}
 		service.shutdown();
+	}
+
+	public int getPool() {
+		return pool;
 	}
 
 }

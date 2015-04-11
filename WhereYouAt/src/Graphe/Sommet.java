@@ -1,19 +1,37 @@
 package Graphe;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import Controleur.Coordonnees;
+import Modele.CSVColumnHeader;
+import Modele.CSVList;
 
 public class Sommet {
 	Coordonnees c;
+	@CSVColumnHeader(name = "siteATracer")
 	String siteATracer;
 	List<Sommet> adjacente = new ArrayList<Sommet>();
+	@CSVColumnHeader(name = "distance")
 	double distance;
 	Graphe graphe;
+	@CSVColumnHeader(name = "Ip")
 	String ip;
 	int bool;
 	int PremierSommet; // 0 si premier Sommet sinon 1;
+	@CSVColumnHeader(name = "longitutde")
+	Double longitutde;
+	@CSVColumnHeader(name = "latitude")
+	Double latitude;
+
+	public Sommet() {
+
+	}
 
 	public Sommet(String ip) {
 		this.ip = ip;
@@ -64,7 +82,7 @@ public class Sommet {
 		}
 	}
 
-//github.com/nasnouss/MiageApp-JavaProjet.git
+	// github.com/nasnouss/MiageApp-JavaProjet.git
 	public Coordonnees getC() {
 		return c;
 	}
@@ -98,19 +116,64 @@ public class Sommet {
 		return this.distance;
 	}
 
-	// @Override
-	// public boolean equals(Object obj) {
-	// if (obj instanceof Sommet) {
-	//
-	// // Vérification des valeurs des attributs
-	// Sommet newSom = (Sommet) obj;
-	// return newSom.c == this.c && newSom.siteATracer == this.siteATracer
-	// && newSom.distance == this.distance
-	// && newSom.PremierSommet == this.PremierSommet;
-	// } else {
-	// return false;
-	// }
-	//
-	// }
+	public static void exportToCSV(Graphe graphe) throws IOException,
+			IllegalArgumentException, IllegalAccessException {
+		CSVList<Sommet> sommetCsv = new CSVList<Sommet>();
+		FileWriter fw = new FileWriter(new File("./Export/Sommet.csv"));
+		BufferedWriter output = new BufferedWriter(fw);
+
+		synchronized (graphe) {
+
+			ListIterator<Sommet> liSommet = graphe.listeSommets.listIterator();
+			while (liSommet.hasNext()) {
+				Sommet SommetCourant = liSommet.next();
+
+				Sommet s = new Sommet();
+				s.setSiteATracer(SommetCourant.getSiteATracer());
+				s.setIp(SommetCourant.getIp());
+				s.setLatitude(SommetCourant.getC().getLatitude());
+				s.setLongitutde(SommetCourant.getC().getLongitude());
+				s.setDistance(SommetCourant.getDistance());
+				sommetCsv.add(s);
+			}
+		}
+		output.write(sommetCsv.toCSV());
+		output.flush();
+		System.out.println("L'export des Sommets est termine");
+
+		output.close();
+	}
+
+	public void setC(Coordonnees c) {
+		this.c = c;
+	}
+
+	public void setAdjacente(List<Sommet> adjacente) {
+		this.adjacente = adjacente;
+	}
+
+	public void setGraphe(Graphe graphe) {
+		this.graphe = graphe;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public void setBool(int bool) {
+		this.bool = bool;
+	}
+
+	public void setPremierSommet(int premierSommet) {
+		PremierSommet = premierSommet;
+	}
+
+	public void setLongitutde(Double longitutde) {
+		this.longitutde = longitutde;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
 
 }
