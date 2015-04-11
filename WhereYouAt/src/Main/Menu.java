@@ -186,7 +186,7 @@ public class Menu {
 				break;
 			case "5":
 
-				StatDescriptives stat = new StatDescriptives(graphe);
+				StatDescriptives stat = new StatDescriptives(graphe,nbLancer);
 				stat.AffichageStat();
 				break;
 

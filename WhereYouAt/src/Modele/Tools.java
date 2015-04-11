@@ -2,9 +2,13 @@ package Modele;
 
 import java.awt.Color;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import Main.Menu;
+
+import Graphe.Sommet;
 
 public class Tools {
 
@@ -109,7 +113,7 @@ public class Tools {
 		return randomColor;
 	}
 
-	public static void trancheIp(String ip1, String ip2,int id)
+	public static void trancheIp(String ip1, String ip2, int id)
 			throws UnknownHostException {
 		int part1;
 		int part2;
@@ -118,11 +122,11 @@ public class Tools {
 		String ip = ip1;
 		String[] partIp1 = ip1.split("\\.");
 		int bool = 0;
-		Menu m = Menu.getInstance( );
+		Menu m = Menu.getInstance();
 		if (ip1.equals(ip2)) {
 			System.out.println("L'ip de debut est identique à l'ip de fin");
 		} else {
-			if(id!=0){
+			if (id != 0) {
 				id++;
 			}
 			m.lancerThread(id, ip1);
@@ -172,11 +176,25 @@ public class Tools {
 
 				}
 				bool = 0;
-				m.lancerThread(id,ip);
+				m.lancerThread(id, ip);
 				id++;
 			}
 
 		}
 
 	}
+
+	public static List<Sommet> tribulles(List<Sommet> tableau) {
+		List<Sommet> t = new ArrayList<Sommet>(tableau);
+		for (int i = 0; i <= (t.size() - 2); i++)
+			for (int j = (t.size() - 1); i < j; j--)
+				if (t.get(j).getDistance() < t.get(j - 1).getDistance()) {
+
+					double x = t.get(j - 1).getDistance();
+					t.get(j - 1).setDistance(t.get(j).getDistance());
+					t.get(j).setDistance(x);
+				}
+		return t;
+	}
+
 }
