@@ -13,6 +13,7 @@ import API.HostIPDataLoader;
 import API.Ip;
 import Modele.Tools;
 import Modele.Traceroute;
+import Statistique.StatDescriptives;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -87,6 +88,8 @@ public class TraceRouteProducteur extends Thread {
 		Double latitude;
 		Double longitude;
 
+		StatDescriptives.setNbTraceroute();
+		
 		if (this.api == 1) {
 			try {
 				// On charge la base de donnees

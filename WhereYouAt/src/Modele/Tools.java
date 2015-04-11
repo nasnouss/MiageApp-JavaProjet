@@ -1,7 +1,11 @@
 package Modele;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import Graphe.Sommet;
 
 public class Tools {
 
@@ -105,4 +109,19 @@ public class Tools {
 
 		return randomColor;
 	}
+	
+	public static List<Sommet> tribulles(List<Sommet> tableau){
+		List<Sommet> t = new ArrayList<Sommet>(tableau);
+        for (int i=0 ;i<=(t.size()-2);i++)
+                for (int j=(t.size()-1);i < j;j--)
+                        if (t.get(j).getDistance() < t.get(j-1).getDistance()){
+                                
+                        	double x=t.get(j-1).getDistance();
+                        	t.get(j-1).setDistance(t.get(j).getDistance());
+                        	t.get(j).setDistance(x);
+                        }
+        return t;
+} 
+	
+	
 }
