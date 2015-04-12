@@ -11,6 +11,9 @@ public class CSVList<E> extends ArrayList<E> implements ICSVList {
 	public CSVList(){
 		
 	}
+	/**
+	 * Affiche le fichier au format csv 
+	 */
 	public String toCSV() throws IllegalArgumentException, IllegalAccessException {
 
 		List<Field> csvFields = new ArrayList<Field>();

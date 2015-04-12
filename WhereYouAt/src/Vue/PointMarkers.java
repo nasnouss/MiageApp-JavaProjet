@@ -29,6 +29,9 @@ public class PointMarkers extends ApplicationTemplate {
 		public final static int GREAT_CIRCLE = WorldWind.GREAT_CIRCLE;
 		protected int pathType = GREAT_CIRCLE;
 
+		/**
+		 * Affiche le globe 
+		 */
 		public AppFrame() {
 			super(true, true, false);
 			app = this;
@@ -71,10 +74,18 @@ public class PointMarkers extends ApplicationTemplate {
 
 		}
 
+		/**
+		 * 
+		 * @return une instance vers le globe de l'application
+		 */
 		public static AppFrame getAppFrame() {
 			return app;
 		}
 
+		/**
+		 * Ajoute un point sur le globe grace au coordonnées GPS du point
+		 * @param c coordonnées du point que l'on veut placer sur le globe
+		 */
 		public void AjouterCoordonnees(Coordonnees c) {
 			// Creating positions where the placemarkers will be placed.
 			Position pointPosition = Position.fromDegrees(c.getLatitude(),
@@ -101,7 +112,11 @@ public class PointMarkers extends ApplicationTemplate {
 
 		}
 
-		// Dessine une ligne entre deux sommets
+		/**
+		 * Dessine une ligne entre deux sommets
+		 * @param lst liste de deux sommets 
+		 * @param color couleur de la ligne entre les deux sommets
+		 */
 		public void drawline(ArrayList<Position> lst, Color color) {
 			Polyline path = new Polyline(lst);
 			path.setFollowTerrain(this.followTerrain);
@@ -114,6 +129,14 @@ public class PointMarkers extends ApplicationTemplate {
 
 	}
 
+	/**
+	 * Calcule la distance à vol d'oisieau entre deux points grace a la latitude et longitude
+	 * @param lat1 latitude du point 1
+	 * @param lon1 longitude du point 1
+	 * @param lat2 latitude du point 2
+	 * @param lon2 longitude du point 2
+	 * @return la distance entre deux points
+	 */
 	public static double distanceVolOiseauEntre2PointsAvecPrecision(
 			double lat1, double lon1, double lat2, double lon2) {
 
@@ -123,10 +146,15 @@ public class PointMarkers extends ApplicationTemplate {
 		(Math.pow(Math.sin(((lon1 - lon2) / 2)), 2))));
 	}
 
+	/**
+	 * Calcule la distance entre deux positions
+	 * @param pos1 position du premier point
+	 * @param pos2 position du second point
+	 * @return la distance entre deux positions
+	 */
 	public static double getDistance(Position pos1, Position pos2) {
 		// source : falculté des sciences : Explication
 		// http://www.ipnas.ulg.ac.be/garnir/donneesGPS/TexteTP_calcul.pdf
-		// code source (��� enlever) :
 		// http://dotclear.placeoweb.com/post/Formule-de-calcul-entre-2-points-wgs84-pour-calculer-la-distance-qui-separe-ces-deux-points
 
 		// r

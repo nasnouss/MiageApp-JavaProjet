@@ -82,15 +82,26 @@ public class Sommet {
 		}
 	}
 
-	// github.com/nasnouss/MiageApp-JavaProjet.git
+	/**
+	 * 
+	 * @return le coordonnées c de l'instance
+	 */
 	public Coordonnees getC() {
 		return c;
 	}
 
+	/**
+	 * 
+	 * @return le site a tracer rattaché a un sommet
+	 */
 	public String getSiteATracer() {
 		return siteATracer;
 	}
 
+	/**
+	 * 
+	 * @return l'ip d'un sommet
+	 */
 	public String getIp() {
 		if (this.ip != null) {
 			return this.ip;
@@ -100,22 +111,58 @@ public class Sommet {
 		}
 	}
 
+	/**
+	 * Met a jour le site a tracer d'un sommet
+	 * 
+	 * @param siteATracer
+	 *            nom du site ou de l'ip que l'on veut rattaché à un sommet
+	 */
 	public void setSiteATracer(String siteATracer) {
 		this.siteATracer = siteATracer;
 	}
 
+	/**
+	 * Retourne la valeur de PremierSommet, cette valeur permet de savoir qui
+	 * est le premier sommet du graphe (0 si premier sommet 1 sinon)
+	 * 
+	 * @return un int 0 = premier sommet 1 = autre sommet
+	 */
 	public int getPremierSommet() {
 		return PremierSommet;
 	}
 
+	/**
+	 * Represente la distance à l'origine
+	 * 
+	 * @param distance
+	 *            distance que l'on veut appliqué à un sommet
+	 */
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 
+	/**
+	 * Represente la distance à l'origine
+	 * 
+	 * @return la distance à l'origine d'un sommet -1 si premier sommet
+	 */
 	public double getDistance() {
 		return this.distance;
 	}
 
+	/**
+	 * Exporte la liste de sommet dans un fichier CSV
+	 * 
+	 * @param graphe
+	 *            graphe de l'application
+	 * @throws IOException
+	 *             leve une exception de type IOException
+	 * @throws leve
+	 *             une exception de type leve une exception de type leve une
+	 *             exception de type
+	 * @throws IllegalAccessException
+	 *             leve une exception de type IllegalAccessException
+	 */
 	public static void exportToCSV(Graphe graphe) throws IOException,
 			IllegalArgumentException, IllegalAccessException {
 		CSVList<Sommet> sommetCsv = new CSVList<Sommet>();
@@ -144,18 +191,30 @@ public class Sommet {
 		output.close();
 	}
 
+	/**
+	 * Met a jour les coordonnées d'un sommet
+	 * 
+	 * @param c
+	 *            Coordonnées que l'on veut rattacher à un sommet
+	 */
 	public void setC(Coordonnees c) {
 		this.c = c;
 	}
 
-	public void setAdjacente(List<Sommet> adjacente) {
-		this.adjacente = adjacente;
-	}
-
+	/**
+	 * Met a jour le graphe de l'application
+	 * 
+	 * @param graphe
+	 *            correspond au graphe de l'application
+	 */
 	public void setGraphe(Graphe graphe) {
 		this.graphe = graphe;
 	}
 
+	/**
+	 * Met à jour l'ip du sommet 
+	 * @param ip ip du sommet 
+	 */
 	public void setIp(String ip) {
 		this.ip = ip;
 	}

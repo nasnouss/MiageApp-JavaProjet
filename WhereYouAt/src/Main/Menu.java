@@ -23,23 +23,32 @@ import Graphe.Graphe;
 import Graphe.Sommet;
 
 public class Menu {
-	public List<TraceRouteProducteur> ltrProd = new ArrayList<TraceRouteProducteur>();
-	public List<TraceRouteConsommateur> ltrCons = new ArrayList<TraceRouteConsommateur>();
-	Buffer c = new Buffer();
-	Graphe graphe = new Graphe();
-	int nbLancer = 0; // Nb Traceroute Lancer pendant l'application
-	int PremierFois = 0; // Detecte si c'est la premier fois qu'on lance
-							// l'application
+	public static List<TraceRouteProducteur> ltrProd;
+	public static List<TraceRouteConsommateur> ltrCons;
+	Buffer c;
+	Graphe graphe;
+	int nbLancer; // Nb Traceroute Lancer pendant l'application
+	int PremierFois; // Detecte si c'est la premier fois qu'on lance
+						// l'application
 	static Vue.PointMarkers.AppFrame a;
 
 	Pool Allpool = null;
 	int pool;
-	private static Menu menu = new Menu();
+	private static Menu menu = null;
 
 	public Menu() {
+		Menu.ltrProd = new ArrayList<TraceRouteProducteur>();
+		Menu.ltrCons = new ArrayList<TraceRouteConsommateur>();
+		this.c = new Buffer();
+		this.graphe = new Graphe();
+		this.nbLancer = 0; // Nb Traceroute Lancer pendant l'application
+		this.PremierFois = 0; // Detecte si c'est la premier fois qu'on lance
+								// l'application
 	}
 
 	public static Menu getInstance() {
+		if (menu == null)
+			menu = new Menu();
 		return menu;
 	}
 
@@ -103,15 +112,15 @@ public class Menu {
 					List<Position> lstpos = new ArrayList<Position>();
 					Traceroute trace = new Traceroute(siteATracer, lstpos);
 
-					this.ltrProd.add(new TraceRouteProducteur(c, j,
+					Menu.ltrProd.add(new TraceRouteProducteur(c, j,
 							siteATracer, Integer.parseInt(choixAPI), trace,
 							Tools.setCouleur()));
-					ltrCons.add(new TraceRouteConsommateur(c, j, a, trace,
+					Menu.ltrCons.add(new TraceRouteConsommateur(c, j, a, trace,
 							graphe));
 					nbLancer++;
 
 					// POOL DE THREAD
-					Allpool.start(ltrProd.get(j), ltrCons.get(j));
+					Allpool.start(Menu.ltrProd.get(j), Menu.ltrCons.get(j));
 
 				}
 				PremierFois++;
@@ -130,15 +139,15 @@ public class Menu {
 				for (int i = nbLancer; i < nbSiteATracer; i++) {
 
 					String ip = Tools.randomIp();
-					ltrProd.add(new TraceRouteProducteur(c, i, ip, 1,
+					Menu.ltrProd.add(new TraceRouteProducteur(c, i, ip, 2,
 							new Traceroute(ip, new ArrayList<Position>()),
 							Tools.setCouleur()));
-					ltrCons.add(new TraceRouteConsommateur(c, i, a,
+					Menu.ltrCons.add(new TraceRouteConsommateur(c, i, a,
 							new Traceroute(ip, new ArrayList<Position>()),
 							graphe));
 					nbLancer++;
 
-					Allpool.start(ltrProd.get(i), ltrCons.get(i));
+					Allpool.start(Menu.ltrProd.get(i), Menu.ltrCons.get(i));
 
 				}
 
@@ -186,7 +195,7 @@ public class Menu {
 				break;
 			case "5":
 
-				StatDescriptives stat = new StatDescriptives(graphe,nbLancer);
+				StatDescriptives stat = new StatDescriptives(graphe, nbLancer);
 				stat.AffichageStat();
 				break;
 
@@ -215,12 +224,22 @@ public class Menu {
 	public void lancerThread(int i, String ip) {
 		List<Position> lstpos = new ArrayList<Position>();
 		Traceroute trace = new Traceroute(ip, lstpos);
-		ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, trace, Tools
+		System.out.println("i == " + i + " size = "
+				+ Menu.ltrProd.size());
+		Menu.ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, trace, Tools
 				.setCouleur()));
-		ltrCons.add(new TraceRouteConsommateur(c, i, a, trace, graphe));
-		Pool.getInstance(pool, Menu.getInstance()).start(ltrProd.get(i),
-				ltrCons.get(i));
-		nbLancer = nbLancer + i+1;
+		Menu.ltrCons.add(new TraceRouteConsommateur(c, i, a, trace, graphe));
+		Pool.getInstance(pool, Menu.getInstance()).start(Menu.ltrProd.get(i),
+				Menu.ltrCons.get(i));
+		nbLancer = nbLancer + i + 1;
+	}
+
+	public List<TraceRouteProducteur> getLtrProd() {
+		return ltrProd;
+	}
+
+	public List<TraceRouteConsommateur> getLtrCons() {
+		return ltrCons;
 	}
 
 	// public List<TraceRouteProducteur> getLtrProd() {

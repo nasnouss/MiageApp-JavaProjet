@@ -123,12 +123,11 @@ public class Tools {
 		String[] partIp1 = ip1.split("\\.");
 		int bool = 0;
 		Menu m = Menu.getInstance();
+		System.out.println("size tools =" +Menu.ltrProd.size());
 		if (ip1.equals(ip2)) {
 			System.out.println("L'ip de debut est identique à l'ip de fin");
 		} else {
-			if (id != 0) {
-				id++;
-			}
+			System.out.println("id =  " + id);
 			m.lancerThread(id, ip1);
 			id++;
 

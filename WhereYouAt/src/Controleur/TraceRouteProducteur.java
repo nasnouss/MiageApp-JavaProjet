@@ -33,6 +33,15 @@ public class TraceRouteProducteur extends Thread {
 	public TraceRouteProducteur() {
 	}
 
+	/**
+	 * Constructeur qui Initialise un TracerouteProducteur
+	 * @param buf buffer de l'application
+	 * @param id id du traceroute
+	 * @param siteATracer site dont on cherche a trouver le chemin
+	 * @param api api utiliser 1 = GeoIP 2 = HostIp
+	 * @param trace Historise ce qui se passe sur un traceroute
+	 * @param couleur Couleur aleatoire rattaché a un traceroute
+	 */
 	public TraceRouteProducteur(Buffer buf, int id, String siteATracer,
 			int api, Traceroute trace, Color couleur) {
 		this.buf = buf;
@@ -45,7 +54,11 @@ public class TraceRouteProducteur extends Thread {
 
 	}
 
-	// Permet de parser le traceroute
+		/**
+	 * Permet de parser le traceroute en parcourant le resultat ligne par ligne
+	 * @param ligneTraceRoute correspond a une ligne du traceroute
+	 * @return une ip par ligne 
+	 */
 	public String getIp(String ligneTraceRoute) {
 		int bool = 0;
 		String monIp = "";
@@ -73,14 +86,29 @@ public class TraceRouteProducteur extends Thread {
 		return monIp;
 	}
 
+	/**
+	 * 
+	 * @return le site dont on cherche a trouver le chemin 
+	 */
 	public String getSiteATracer() {
 		return siteATracer;
 	}
 
+	/**
+	 * Met a jour le site dont on cherche a trouver le chemin
+	 * @param siteATracer correspond au site dont on cherche a trouver le chemin
+	 */
 	public void setSiteATracer(String siteATracer) {
 		this.siteATracer = siteATracer;
 	}
 
+	/**
+	 * Methode qui permet appelle les differentes api GeoIp ou HostIp en fonction des parametres
+	 * @param monIp correspond a l'ip que l'on veut placer sur le globe
+	 * @param color correspond a la couleur aleatoire pour un traceroute
+	 * @throws IOException leve une exception de type IOException
+	 * @throws GeoIp2Exception leve une exception de type GeoIp2Exception
+	 */
 	public void executeAPI(Ip monIp, Color color) throws IOException,
 			GeoIp2Exception {
 		DatabaseReader r = null;

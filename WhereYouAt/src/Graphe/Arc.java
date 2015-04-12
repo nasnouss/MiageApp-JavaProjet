@@ -24,10 +24,12 @@ public class Arc {
 	@CSVColumnHeader(name = "Ip S2")
 	String ipS2;
 
+	
 	public Arc() {
 
 	}
 
+	
 	public void setIpS1(String ipS1) {
 		this.ipS1 = ipS1;
 	}
@@ -56,12 +58,22 @@ public class Arc {
 	Double longitutdeS2;
 	@CSVColumnHeader(name = "latitude S2")
 	Double latitudeS2;
-
+	
+	/**
+	 * Arc du graphe qui prend en parametre deux sommets
+	 * @param s1 s1 correpond au premier sommet
+	 * @param s2 s2 correpond au deuxieme sommet
+	 */
 	public Arc(Sommet s1, Sommet s2) {
 		this.s1 = s1;
 		this.s2 = s2;
 	}
 
+	/**
+	 * Ajoute un arc au graphe 
+	 * @param graphe graphe de l'application
+	 * @param arc arc composé de deux sommets
+	 */
 	public void addArc(Graphe graphe, Arc arc) {
 		graphe.listeArcs.add(arc);
 	}
@@ -69,8 +81,8 @@ public class Arc {
 	/**
 	 * Affiche les Voisins d'un sommet du graphe
 	 * 
-	 * @param graphe
-	 * @param s
+	 * @param graphe graphe de l'application
+	 * @param s sommet dont on veut afficher les voisins
 	 */
 	public static void getVoisin(Graphe graphe, Sommet s) {
 		String afficheVoisin = "";
@@ -122,12 +134,22 @@ public class Arc {
 
 	}
 
+	/**
+	 * Affiche les arcs du graphe
+	 */
 	public String toString() {
 		return new String("   arc: ( " + this.s1.getSiteATracer() + " "
 				+ this.s1.getIp() + " -> " + this.s1.getSiteATracer() + " "
 				+ this.s2.getIp() + " )");
 	}
 
+	/**
+	 * Exporte les arcs du graphe dans un ficher CSV
+	 * @param graphe graphe de l'application 
+	 * @throws IOException leve une exception de type IOException
+	 * @throws IllegalArgumentException leve une exception de type IllegalArgumentException
+	 * @throws IllegalAccessException leve une exception de type IllegalAccessException
+	 */
 	public static void exportToCSV(Graphe graphe) throws IOException,
 			IllegalArgumentException, IllegalAccessException {
 		CSVList<Arc> arcCsv = new CSVList<Arc>();

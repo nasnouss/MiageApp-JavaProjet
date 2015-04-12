@@ -8,18 +8,34 @@ public class Graphe {
 	public LinkedList<Sommet> listeSommets = new LinkedList<Sommet>();
 	public LinkedList<Arc> listeArcs = new LinkedList<Arc>();
 
+	/**
+	 * Renvoie le nombre de Sommets dans le graphe
+	 * 
+	 * @return le nombre de Sommets dans le graphe
+	 */
 	public int getNbSommets() {
 		return listeSommets.size();
-	}		  
-	
+	}
+
+	/**
+	 * 
+	 * @return la liste de sommets sous forme de tableau
+	 */
 	public Object[] getSommets() {
 		return listeSommets.toArray();
 	}
 
+	/**
+	 * 
+	 * @return la liste d'arcs sous forme de tableau
+	 */
 	public Object[] getArcs() {
 		return listeArcs.toArray();
 	}
 
+	/**
+	 * Affiche le graphe avec la liste des sommets et la liste des arcs
+	 */
 	public String toString() {
 		StringBuffer texte = new StringBuffer("*** graphe ***\n");
 		ListIterator<Sommet> liSommet = this.listeSommets.listIterator();
@@ -37,8 +53,11 @@ public class Graphe {
 		}
 		return texte.toString();
 	}
-	
-	//Retourne le Premier Sommet du Graphe pour un traceroute
+
+	/**
+	 * 
+	 * @return Retourne le Premier Sommet du Graphe pour un traceroute
+	 */
 	public Sommet getPremierSommet() {
 		Sommet sommetCourant = null;
 		ListIterator<Sommet> liSommet = this.listeSommets.listIterator();
@@ -52,6 +71,11 @@ public class Graphe {
 		return sommetCourant;
 	}
 
+	/**
+	 * Permet de recuperer un sommet dans la liste des sommets
+	 * @param s
+	 * @return le sommet s
+	 */
 	public Sommet getSommet(Sommet s) {
 		Sommet sommetCourant = null;
 		ListIterator<Sommet> liSommet = this.listeSommets.listIterator();
@@ -63,7 +87,12 @@ public class Graphe {
 		}
 		return sommetCourant;
 	}
-	
+
+	/**
+	 * Test si un sommet existe dans la liste de sommets du graphe 
+	 * @param s  sommet dont l'on cherche l'existence ou non dans le graphe
+	 * @return vrai si le sommet s existe sinon faux
+	 */
 	public boolean existeSommet(Sommet s) {
 		for (Sommet ss : this.listeSommets) {
 			if (ss.getIp() == s.getIp()) {
