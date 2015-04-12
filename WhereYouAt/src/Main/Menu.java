@@ -161,7 +161,7 @@ public class Menu {
 				String ip2 = sc.nextLine();
 				try {
 					System.out.println("nbLancer = " + nbLancer);
-					Tools.trancheIp(ip1, ip2, nbLancer);
+					Tools.trancheIp(ip1, ip2, nbLancer, Menu.ltrProd, Menu.ltrCons);
 
 				} catch (UnknownHostException e) {
 					System.out.println("Une erreur est survenue plage ip");
@@ -221,16 +221,19 @@ public class Menu {
 
 	}
 
-	public void lancerThread(int i, String ip) {
+	public void lancerThread(int i, String ip,
+			List<TraceRouteProducteur> ltrProd,
+			List<TraceRouteConsommateur> ltrCons) {
 		List<Position> lstpos = new ArrayList<Position>();
 		Traceroute trace = new Traceroute(ip, lstpos);
-		System.out.println("i == " + i + " size = "
-				+ Menu.ltrProd.size());
-		Menu.ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, trace, Tools
+		System.out.println("i == " + i + " size = " + ltrProd.size());
+		ltrProd.add(new TraceRouteProducteur(c, i, ip, 1, trace, Tools
 				.setCouleur()));
-		Menu.ltrCons.add(new TraceRouteConsommateur(c, i, a, trace, graphe));
-		Pool.getInstance(pool, Menu.getInstance()).start(Menu.ltrProd.get(i),
-				Menu.ltrCons.get(i));
+		ltrCons.add(new TraceRouteConsommateur(c, i, a, trace, graphe));
+		Pool.getInstance(pool, Menu.getInstance()).start(ltrProd.get(i),
+				ltrCons.get(i));
+		Menu.ltrProd = ltrProd;
+		Menu.ltrCons = ltrCons;
 		nbLancer = nbLancer + i + 1;
 	}
 

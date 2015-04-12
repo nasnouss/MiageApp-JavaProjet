@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import Main.Menu;
-
+import Controleur.TraceRouteConsommateur;
+import Controleur.TraceRouteProducteur;
 import Graphe.Sommet;
 
 public class Tools {
@@ -113,7 +114,7 @@ public class Tools {
 		return randomColor;
 	}
 
-	public static void trancheIp(String ip1, String ip2, int id)
+	public static void trancheIp(String ip1, String ip2, int id,List<TraceRouteProducteur> ltrProd,List<TraceRouteConsommateur> ltrCons)
 			throws UnknownHostException {
 		int part1;
 		int part2;
@@ -123,12 +124,12 @@ public class Tools {
 		String[] partIp1 = ip1.split("\\.");
 		int bool = 0;
 		Menu m = Menu.getInstance();
-		System.out.println("size tools =" +Menu.ltrProd.size());
+		System.out.println("size tools =" +ltrProd.size());
 		if (ip1.equals(ip2)) {
 			System.out.println("L'ip de debut est identique à l'ip de fin");
 		} else {
 			System.out.println("id =  " + id);
-			m.lancerThread(id, ip1);
+			m.lancerThread(id, ip1,ltrProd,ltrCons);
 			id++;
 
 			while (!ip.equals(ip2)) {
@@ -175,7 +176,7 @@ public class Tools {
 
 				}
 				bool = 0;
-				m.lancerThread(id, ip);
+				m.lancerThread(id, ip,ltrProd,ltrCons);
 				id++;
 			}
 
