@@ -137,7 +137,7 @@ public class PointMarkers extends ApplicationTemplate {
 	 * @param lon2 longitude du point 2
 	 * @return la distance entre deux points
 	 */
-	public static double distanceVolOiseauEntre2PointsAvecPrecision(
+	public static double distanceVolOiseauEntre(
 			double lat1, double lon1, double lat2, double lon2) {
 
 		return 2 * Math.asin(Math.sqrt(Math.pow((Math.sin((lat1 - lat2) / 2)),
@@ -160,8 +160,7 @@ public class PointMarkers extends ApplicationTemplate {
 		// r
 		int r = 6371;
 
-		long tempsT1;
-		long tempsT2;
+	
 
 		// POINT DE DEPART
 		double lat1 = Math.toRadians(pos1.getLatitude().getDegrees());
@@ -172,18 +171,13 @@ public class PointMarkers extends ApplicationTemplate {
 		double lat2 = Math.toRadians(pos2.getLatitude().getDegrees());
 		double lon2 = Math.toRadians(pos2.getLongitude().getDegrees());
 
-		tempsT1 = System.nanoTime();
-		double distance = distanceVolOiseauEntre2PointsAvecPrecision(lat1,
+		
+		double distance = distanceVolOiseauEntre(lat1,
 				lon1, lat2, lon2);
-		tempsT2 = System.nanoTime();
+
 
 		double distanceEnKm = distance * r;
 
-		tempsT1 = System.nanoTime();
-		tempsT2 = System.nanoTime();
-
-		// System.out.println("Temps (SansPrecision) : "
-		// + String.format("%10d", (tempsT2 - tempsT1)) + " ns");
 
 		return distanceEnKm;
 	}
