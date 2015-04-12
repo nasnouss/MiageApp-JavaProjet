@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import Graphe.Graphe;
 import Graphe.Sommet;
+import Modele.Tools;
 
 public class StatDescriptives {
 
@@ -45,25 +46,90 @@ public class StatDescriptives {
 		StatDescriptives.lst = lst;
 	}
 
-	public void AffichageStat() {
+public void AffichageStat(){
 
-		ListIterator li = lst.listIterator();
-		// ici je voudrai que le code affiche que les voiture par exemple qui
-		// coute 30000€
-		while (li.hasNext()) {
-			System.out.println(li.next());
+		
+		List<Sommet> listSommetsSorted = Tools.tribulles(g.getListeSommets());
+		//ListIterator li = listSommetsSorted.listIterator();
+		
 
-		}
-
-		// Collections.sort(lst);
-		System.out.println("*********Statistiques Descriptive ***********"
-				+ "\n\nNombre de sommets : " + g.getNbSommets()
-				+ "\n\nNombre de traceroutes lancés : " + nbTraceroute
-				+ "\n\nClassement des traceroute par distance : \n"
-				+ "En attente" + (totalTrace - nbTraceroute) + "\n"
-
-				+ "  *******************************************");
-		// return "test : "+ g.getNbSommets();
+		//Collections.sort(lst);
+		System.out.println("********* Statistiques Descriptives ***********" 
+				+ "\n\nNombre de sommets : "+ g.getNbSommets() 
+				+ "\n\nNombre de traceroutes lancés : " + nbTraceroute 
+				+ "\nEn attente : " + Math.abs(totalTrace - nbTraceroute) + "\n"
+				+ "\n\n******* Classement des traceroutes par distance ******* \n"
+				+ toStringSorted(RemoveDoublons(listSommetsSorted))
+				+ " \n *******************************************");
+		//return "test : "+ g.getNbSommets();
 	}
 
+
+
+
+
+	public static String toStringSorted(ListIterator<Sommet> liSommet) {
+		StringBuffer texte = new StringBuffer();
+		
+
+		while (liSommet.hasNext()) {
+			Sommet SommetCourant = liSommet.next();
+			texte.append(" Site à tracer = " + SommetCourant.getSiteATracer()
+					+ " Distance a l'origine =  " + SommetCourant.getDistance()
+					+ "\n");
+		}
+
+		return texte.toString();
+	}
+
+
+	public static ListIterator<Sommet> RemoveDoublons(List<Sommet> listSommets){
+
+		ListIterator<Sommet> listSommetsI = listSommets.listIterator();
+		
+		List<Sommet> lst = new ArrayList<Sommet>();
+		lst.add(listSommets.get(0));
+		ListIterator<Sommet> lstI = lst.listIterator();
+		
+		
+		
+
+
+		while (listSommetsI.hasNext()) {
+			Sommet som = listSommetsI.next();
+			
+			boolean drap =false;
+			
+			while(lstI.hasNext()){
+				Sommet somTest = lstI.next();
+
+			
+				if(som.getSiteATracer().equals(somTest.getSiteATracer())){
+					drap= true;
+			
+				}
+			}
+			
+			if(!drap){
+			
+				lstI.add(som);
+			}
+			
+			while (lstI.hasPrevious()) lstI.previous();  // end to begin
+		}
+
+		return lstI;
+	}
+
+
+
+
+
+
+
+
 }
+
+
+
+

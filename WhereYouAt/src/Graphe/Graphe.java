@@ -19,7 +19,7 @@ public class Graphe {
 
 	/**
 	 * 
-	 * @return la liste de sommets sous forme de tableau
+	 * @return la liste des sommets sous forme de tableau
 	 */
 	public Object[] getSommets() {
 		return listeSommets.toArray();
@@ -31,6 +31,14 @@ public class Graphe {
 	 */
 	public Object[] getArcs() {
 		return listeArcs.toArray();
+	}
+	
+	/**
+	 * 
+	 * @return la liste des sommets sous forme de liste
+	 */
+	public LinkedList<Sommet> getListeSommets(){
+		return this.listeSommets;
 	}
 
 	/**

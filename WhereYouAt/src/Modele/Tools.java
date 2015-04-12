@@ -183,17 +183,16 @@ public class Tools {
 
 	}
 
-	public static List<Sommet> tribulles(List<Sommet> tableau) {
-		List<Sommet> t = new ArrayList<Sommet>(tableau);
-		for (int i = 0; i <= (t.size() - 2); i++)
-			for (int j = (t.size() - 1); i < j; j--)
-				if (t.get(j).getDistance() < t.get(j - 1).getDistance()) {
-
-					double x = t.get(j - 1).getDistance();
-					t.get(j - 1).setDistance(t.get(j).getDistance());
-					t.get(j).setDistance(x);
-				}
-		return t;
-	}
-
+	public static List<Sommet> tribulles(List<Sommet> liste){
+		List<Sommet> t = new ArrayList<Sommet>(liste);
+        for (int i=0 ;i<=(t.size()-2);i++)
+                for (int j=(t.size()-1);i < j;j--)
+                        if (t.get(j).getDistance() > t.get(j-1).getDistance()){
+                                
+                        	Sommet x=t.get(j);
+                        	t.set(j,t.get(j-1));
+                        	t.set(j-1,x);
+                        }
+        return t;
+} 
 }
