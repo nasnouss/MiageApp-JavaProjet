@@ -115,7 +115,7 @@ public class TraceRouteProducteur extends Thread {
 		Position pos;
 		Double latitude;
 		Double longitude;
-		StatDescriptives.setNbTraceroute();
+		
 
 		if (this.api == 1) {
 			try {
@@ -174,7 +174,7 @@ public class TraceRouteProducteur extends Thread {
 		Color color = Tools.setCouleur();
 
 		Runtime runtime = Runtime.getRuntime();
-
+		StatDescriptives.setNbTraceroute();
 		Process process = null;
 		try {
 			// On lance le traceroute

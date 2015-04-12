@@ -9,44 +9,42 @@ import Graphe.Graphe;
 import Graphe.Sommet;
 import Modele.Tools;
 
+
 public class StatDescriptives {
 
 	private static int nbSommet = 0;
 	private static int nbTraceroute = 0;
 	private static List<Sommet> lst = new ArrayList<Sommet>();
-	private Graphe g;
+	private Graphe g ;
 	private int totalTrace;
 
-	public StatDescriptives(Graphe graphe, int nbtrace) {
+	public StatDescriptives(Graphe graphe, int nbtrace){
 		this.g = graphe;
 		this.totalTrace = nbtrace;
 	}
 
+
+
 	public static int getNbSommet() {
 		return nbSommet;
 	}
-
 	public static void setNbSommet() {
 		StatDescriptives.nbSommet = StatDescriptives.nbSommet + 1;
 	}
-
 	public static int getNbTraceroute() {
 		return nbTraceroute;
 	}
-
 	public static void setNbTraceroute() {
 		StatDescriptives.nbTraceroute = StatDescriptives.nbTraceroute + 1;
 	}
-
 	public static List<Sommet> getLst() {
 		return lst;
 	}
-
 	public static void setLst(List<Sommet> lst) {
 		StatDescriptives.lst = lst;
 	}
 
-public void AffichageStat(){
+	public void AffichageStat(){
 
 		
 		List<Sommet> listSommetsSorted = Tools.tribulles(g.getListeSommets());
@@ -57,7 +55,7 @@ public void AffichageStat(){
 		System.out.println("********* Statistiques Descriptives ***********" 
 				+ "\n\nNombre de sommets : "+ g.getNbSommets() 
 				+ "\n\nNombre de traceroutes lancés : " + nbTraceroute 
-				+ "\nEn attente : " + Math.abs(totalTrace - nbTraceroute) + "\n"
+				+ "\nEn attente : " + (totalTrace - nbTraceroute) + "\n"
 				+ "\n\n******* Classement des traceroutes par distance ******* \n"
 				+ toStringSorted(RemoveDoublons(listSommetsSorted))
 				+ " \n *******************************************");
@@ -129,6 +127,18 @@ public void AffichageStat(){
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
